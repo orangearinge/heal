@@ -3,7 +3,6 @@
 import {
   Conversation,
   ConversationContent,
-  ConversationEmptyState,
   ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
 import { Loader } from "@/components/ai-elements/loader";
@@ -51,6 +50,7 @@ import { Button } from "@/components/ui/button";
 import { useChat } from "@ai-sdk/react";
 import { Fragment, useState } from "react";
 import { CopyIcon, GlobeIcon, RefreshCcwIcon, SparklesIcon } from "lucide-react";
+import { ModeToggle } from "@/components/layout/mode-toggle";
 
 const models = [
   {
@@ -80,9 +80,9 @@ export default function ChatPage() {
     }
 
     sendMessage(
-      { 
+      {
         text: message.text || "Sent with attachments",
-        files: message.files 
+        files: message.files
       },
       {
         body: {
@@ -97,15 +97,23 @@ export default function ChatPage() {
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       {/* Header */}
-      {/* <header className="flex items-center justify-between border-b px-6 py-3">
-        <div className="flex items-center gap-2">
-          <SparklesIcon className="size-6" />
-          <h1 className="font-semibold text-xl">Heal AI</h1>
+      <header className="flex justify-end px-6 py-3">
+        {/* <div className="flex items-center gap-2">
+          <h1 className="font-semibold text-xl">H</h1>
+        </div> */}
+        <div className="flex gap-4">
+
+          <Button variant="outline">
+            Sign in
+          </Button>
+          <Button variant="default">
+            Sign up
+          </Button>
         </div>
-        <Button variant="ghost" size="sm">
-          Private
-        </Button>
-      </header> */}
+        {/* <div className="justify-end">
+          <ModeToggle />
+        </div> */}
+      </header>
 
       {/* Main Content */}
       {!hasMessages ? (
@@ -115,7 +123,7 @@ export default function ChatPage() {
             <div className="text-center">
               <h2 className="text-6xl font-bold font-mono mb-2">Heal.</h2>
             </div>
-            
+
             {/* Input di tengah */}
             <PromptInput onSubmit={handleSubmit} globalDrop multiple>
               <PromptInputHeader>
@@ -163,7 +171,7 @@ export default function ChatPage() {
                     </PromptInputModelSelectContent>
                   </PromptInputModelSelect>
                 </PromptInputTools>
-                <PromptInputSubmit disabled={!input && !status} status={status} />
+                <PromptInputSubmit  disabled={!input && !status} status={status} />
               </PromptInputFooter>
             </PromptInput>
 
@@ -237,7 +245,7 @@ export default function ChatPage() {
                           return (
                             <Fragment key={`${message.id}-${i}`}>
                               <Message from={message.role} >
-                                
+
                                 <MessageContent variant="flat" className="p-2">
                                   <Response key={`${message.id}-${i}`}>{part.text}</Response>
                                 </MessageContent>
@@ -288,7 +296,7 @@ export default function ChatPage() {
           {/* Floating Input Area */}
           <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-background via-background to-transparent pb-4 pt-8">
             <div className="mx-auto w-full max-w-3xl px-4">
-              <PromptInput onSubmit={handleSubmit}  className="bg-muted/50 backdrop-blur-sm rounded-xl" globalDrop multiple>
+              <PromptInput onSubmit={handleSubmit} className="bg-muted/50 backdrop-blur-sm rounded-xl" globalDrop multiple>
                 <PromptInputHeader >
                   <PromptInputAttachments>
                     {(attachment) => <PromptInputAttachment data={attachment} />}
@@ -298,7 +306,7 @@ export default function ChatPage() {
                   <PromptInputTextarea
                     placeholder="Tanyakan lagi..."
                     onChange={(e) => setInput(e.target.value)}
-                    
+
                     value={input}
                   />
                 </PromptInputBody>
