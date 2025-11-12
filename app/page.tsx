@@ -1,7 +1,21 @@
-export default function Home (){
+import CTASection from "@/components/landing/cta-section";
+import FAQSection from "@/components/landing/faq-section";
+import FeatureSection from "@/components/landing/feature-section";
+import FooterSection from "@/components/landing/footer-section.tsx";
+import HeroSection from "@/components/landing/hero-section";
+import ProblemSolutionSection from "@/components/landing/problem-solution-section";
+import TestimoniSection from "@/components/landing/testimoni-section";
+
+export default function Home() {
   return (
-    <div className="flex flex-col ">
-      <h1>Hello world</h1>
-    </div>
+    <main className="flex flex-col gap-4 ">
+      <HeroSection />
+      <FeatureSection />
+      <ProblemSolutionSection />
+      <FAQSection />
+      <TestimoniSection />
+      <CTASection />
+      <FooterSection />
+    </main>
   )
 }

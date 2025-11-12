@@ -10,8 +10,11 @@ export default function RootLayout({
         <div>
             <SidebarProvider >
                 <AppSidebar variant="sidebar" />
-                <SidebarInset />
-                {children}
+                <SidebarInset >
+                    <div className="@container/main ">
+                        {children}
+                    </div>
+                </SidebarInset>
             </SidebarProvider>
         </div>
     );

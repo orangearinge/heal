@@ -171,7 +171,7 @@ export default function ChatPage() {
                     </PromptInputModelSelectContent>
                   </PromptInputModelSelect>
                 </PromptInputTools>
-                <PromptInputSubmit  disabled={!input && !status} status={status} />
+                <PromptInputSubmit disabled={!input && !status} status={status} />
               </PromptInputFooter>
             </PromptInput>
 
