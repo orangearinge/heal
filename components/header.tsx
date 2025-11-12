@@ -1,15 +1,10 @@
-// components/header-client.tsx
 'use client'
 import Link from 'next/link'
-import { Logo } from '@/components/layout/logo'
-import { Languages, Menu, X } from 'lucide-react'
+import { Logo } from '@/components/logo'
+import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
-
-import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
-import { UserButton } from './user-button'
-import { ModeToggle } from './mode-toggle'
 
 const menuItems = [
     { name: 'Features', href: '#link' },
@@ -17,7 +12,6 @@ const menuItems = [
     { name: 'Pricing', href: '#link' },
     { name: 'About', href: '#link' },
 ]
-
 
 export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
@@ -30,20 +24,19 @@ export const HeroHeader = () => {
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
-
     return (
         <header>
             <nav
                 data-state={menuState && 'active'}
-                className="fixed z-20 w-full ">
-                <div className={cn(' transition-all duration-300 lg:px-12 pt-2', isScrolled && 'bg-background/50 pt-0   border backdrop-blur-lg lg:px-5')}>
-                    <div className="relative flex flex-wrap items-center justify-between gap-6 py-2 lg:gap-0 lg:py-2">
+                className="fixed z-20 w-full px-2">
+                <div className={cn('mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12', isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
+                    <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
                             <Link
                                 href="/"
                                 aria-label="home"
-                                className={cn(isScrolled ? "flex items-center space-x-2" : "text-white")}>
-                                Heal
+                                className="flex items-center space-x-2">
+                                <Logo />
                             </Link>
 
                             <button
@@ -61,7 +54,7 @@ export const HeroHeader = () => {
                                     <li key={index}>
                                         <Link
                                             href={item.href}
-                                            className={cn(isScrolled ? "text-foreground hover:text-accent-foreground block duration-150" : "text-white")}>
+                                            className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                             <span>{item.name}</span>
                                         </Link>
                                     </li>
@@ -84,30 +77,31 @@ export const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-
                                 <Button
                                     asChild
-                                    size="lg"
-                                    className={cn(
-                                        (isScrolled ? 'rounded-full' : 'rounded-full dark ')
-                                    )}
-                                // className={cn(isScrolled && 'lg:hidden')}
-                                >
-                                    <Link href="/login">
-                                        <span>Sign in</span>
+                                    variant="outline"
+                                    size="sm"
+                                    className={cn(isScrolled && 'lg:hidden')}>
+                                    <Link href="#">
+                                        <span>Login</span>
                                     </Link>
                                 </Button>
-                                {/* <ModeToggle /> */}
-
-                                {/* <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
-                  <Link href="#">
-
-                    <span>Get Started</span>
-                  </Link>
-                </Button> */}
+                                <Button
+                                    asChild
+                                    size="sm"
+                                    className={cn(isScrolled && 'lg:hidden')}>
+                                    <Link href="#">
+                                        <span>Sign Up</span>
+                                    </Link>
+                                </Button>
+                                <Button
+                                    asChild
+                                    size="sm"
+                                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
+                                    <Link href="#">
+                                        <span>Get Started</span>
+                                    </Link>
+                                </Button>
                             </div>
                         </div>
                     </div>
