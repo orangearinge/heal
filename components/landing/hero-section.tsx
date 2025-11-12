@@ -1,4 +1,3 @@
-import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ChevronRight } from 'lucide-react'
@@ -15,6 +14,7 @@ export default function HeroSection() {
                 priority
                 className="object-cover p-2 rounded-4xl "
             />
+
 
             <div className="relative mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                 <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">

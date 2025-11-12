@@ -3,7 +3,6 @@ import FAQSection from "@/components/landing/faq-section";
 import FooterSection from "@/components/landing/footer-section.tsx";
 import HeroSection from "@/components/landing/hero-section";
 import LogoCloud from "@/components/landing/logo-cloud";
-import ProblemSolutionSection from "@/components/landing/problem-solution-section";
 import TestimoniSection from "@/components/landing/testimoni-section";
 import { HeroHeader } from "@/components/layout/hero-header";
 import SyncWearablesSection from "@/components/landing/syncing-wearables-section";
@@ -18,9 +17,8 @@ export default function Home() {
       <div className="flex flex-col space-y-10">
         <SyncWearablesSection />
         <FeatureSection />
-        <ProblemSolutionSection />
-        <FAQSection />
         <TestimoniSection />
+        <FAQSection />
       </div>
       <CTASection />
       <FooterSection />
