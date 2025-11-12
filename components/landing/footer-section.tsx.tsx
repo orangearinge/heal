@@ -44,6 +44,7 @@ export default function FooterSection() {
                         ))}
                     </div>
                 </div>
+                <p className='text-[20rem] font-bold text-primary'>HEAL</p>
             </div>
         </footer>
     )

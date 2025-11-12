@@ -42,8 +42,8 @@ export const HeroHeader = () => {
                             <Link
                                 href="/"
                                 aria-label="home"
-                                className={cn(isScrolled ? "flex items-center space-x-2" : "text-white")}>
-                                Heal
+                                className={cn(isScrolled ? "flex items-center space-x-2 text-xl" : "text-white text-xl")}>
+                                TrueHeallness
                             </Link>
 
                             <button
