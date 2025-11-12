@@ -32,7 +32,7 @@ export default function FooterSection() {
         <footer className="border-b bg-white py-12 dark:bg-transparent">
             <div className=" px-6">
                 <div className="flex flex-wrap justify-between gap-6">
-                    <span className="text-muted-foreground order-last block text-center text-sm md:order-first">© {new Date().getFullYear()} Tailark, All rights reserved</span>
+                    <span className="text-muted-foreground order-last block text-center text-sm md:order-first">© {new Date().getFullYear()} TrueHealness, All rights reserved</span>
                     <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last">
                         {links.map((link, index) => (
                             <Link
@@ -44,7 +44,6 @@ export default function FooterSection() {
                         ))}
                     </div>
                 </div>
-                <p className='text-[20rem] font-bold text-primary'>HEAL</p>
             </div>
         </footer>
     )

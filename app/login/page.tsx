@@ -1,6 +1,8 @@
 "use client"
 import { LogoIcon } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -50,8 +52,8 @@ export default function LoginPage() {
                         <Link
                             href="/"
                             aria-label="home"
-                            className="flex items-center space-x-2">
-                            <LogoIcon className="w-20" />
+                            className="flex items-center text-center">
+                            <LogoIcon className="border-b text-2xl text-center flex" />
                         </Link>
                         <h2 className="mt-6 text-center  text-2xl font-medium dark:text-foreground flex items-center  gap-2">
                             Log in to your account
@@ -64,8 +66,10 @@ export default function LoginPage() {
                     <div>
                         <div className="flex flex-col space-y-4   ">
                             <Button
-                                variant={"default"}
+                                variant={"outline"}
                                 disabled={loadingProvider === "google"}
+                                size={"lg"}
+                                className="rounded-full"
                             // onClick={() => signWithGoogle()}
                             >
                                 <div className="flex items-center gap-2">
@@ -110,7 +114,7 @@ export default function LoginPage() {
                                 <div className="grow border-t border-dashed" />
                             </div>
 
-                            <Button
+                            {/* <Button
                                 variant={"outline"}
                                 disabled={loadingProvider === "github"}
                             // onClick={() => signWithGithub()}
@@ -137,7 +141,17 @@ export default function LoginPage() {
                                     )}
                                     Continue with GitHub
                                 </div>
-                            </Button>
+                            </Button> */}
+                            <form className="flex flex-col gap-6">
+                                <Field>
+                                    <FieldLabel htmlFor="email">Email</FieldLabel>
+                                    <Input id="email" type="email" className="rounded-full" placeholder="m@example.com" required />
+                                </Field>
+                                <Field>
+                                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                                    <Input id="password" type="password" className="rounded-full" placeholder="••••••••" required />
+                                </Field>
+                            </form>
 
                         </div>
                     </div>
@@ -153,7 +167,7 @@ export default function LoginPage() {
                         </Link>
                     </p>
                 </div>
-            </div>
+            </div >
         </>
     );
 }

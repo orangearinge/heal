@@ -10,19 +10,21 @@ import { cn } from '@/lib/utils'
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { UserButton } from './user-button'
 import { ModeToggle } from './mode-toggle'
+import { usePathname, useRouter } from 'next/navigation'
+import { HyperText } from '../ui/hyper-text'
 
 const menuItems = [
-    { name: 'Features', href: '#link' },
-    { name: 'Solution', href: '#link' },
-    { name: 'Pricing', href: '#link' },
-    { name: 'About', href: '#link' },
+    { name: 'Solution', href: '/#solution' },
+    { name: 'Features', href: '/#features' },
+    // { name: 'Pricing', href: '#pricing' },
+    { name: 'About', href: '/#about' },
+    { name: 'Contact', href: '/contact' },
 ]
 
 
 export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
-
     React.useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50)
@@ -31,19 +33,25 @@ export const HeroHeader = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    const pathname = usePathname()
+    const isNotLanding = pathname !== '/'
+
+
     return (
         <header>
             <nav
                 data-state={menuState && 'active'}
                 className="fixed z-20 w-full ">
-                <div className={cn(' transition-all duration-300 lg:px-12 pt-2', isScrolled && 'bg-background/50 pt-0    backdrop-blur-lg lg:px-5')}>
+                <div className={cn(' transition-all duration-300 lg:px-12 pt-2', isScrolled && 'bg-background pt-0    backdrop-blur-lg lg:px-5', isNotLanding && "px-5 lg:px-5")}>
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-2 lg:gap-0 lg:py-2">
                         <div className="flex w-full justify-between lg:w-auto">
                             <Link
                                 href="/"
                                 aria-label="home"
-                                className={cn(isScrolled ? "flex items-center space-x-2 text-xl" : "text-white text-xl")}>
-                                TrueHeallness
+                            >
+                                <HyperText className={cn(isScrolled ? "flex items-center space-x-2 text-xl" : "text-white text-xl", isNotLanding ? "text-black" : "")}>
+                                    TrueHealness
+                                </HyperText>
                             </Link>
 
                             <button
@@ -61,7 +69,7 @@ export const HeroHeader = () => {
                                     <li key={index}>
                                         <Link
                                             href={item.href}
-                                            className={cn(isScrolled ? "text-foreground hover:text-accent-foreground block duration-150" : "text-white")}>
+                                            className={cn(isScrolled ? "text-foreground hover:text-accent-foreground block duration-150" : "text-white", isNotLanding && "text-foreground")}>
                                             <span>{item.name}</span>
                                         </Link>
                                     </li>
@@ -89,7 +97,7 @@ export const HeroHeader = () => {
                                     asChild
                                     size="lg"
                                     className={cn(
-                                        (isScrolled ? 'rounded-full' : 'rounded-full dark ')
+                                        (isScrolled ? 'rounded-full ' : 'rounded-full dark bg-white/20 text-white ')
                                     )}
                                 // className={cn(isScrolled && 'lg:hidden')}
                                 >
@@ -97,7 +105,7 @@ export const HeroHeader = () => {
                                         <span>Sign in</span>
                                     </Link>
                                 </Button>
-                                {/* <ModeToggle /> */}
+                                <ModeToggle className={cn(!isScrolled && 'text-white')} />
 
                                 {/* <Button
                   asChild

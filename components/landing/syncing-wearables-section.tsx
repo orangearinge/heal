@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function SyncWearablesSection() {
   return (
-    <section className="py-16 md:py-32">
+    <section id="solution" className="py-16 md:py-32">
       <div className="mx-auto  flex flex-col items-center gap-16 px-6">
         {/* Top content: title & description side by side */}
         <div className="flex flex-col md:flex-row justify-between items-start w-full gap-8">
@@ -30,7 +30,7 @@ export default function SyncWearablesSection() {
                 alt={logo.alt}
                 width={160}
                 height={160}
-                className="object-contain"
+                className="object-contain dark:invert"
               />
             </div>
           ))}

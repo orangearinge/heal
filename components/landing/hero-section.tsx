@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ChevronRight } from 'lucide-react'
+import { ArrowUpRight, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 
 export default function HeroSection() {
@@ -26,10 +26,9 @@ export default function HeroSection() {
                             size="lg"
                             variant={"default"}
                             className="h-12 rounded-full pl-5 pr-3 dark">
-
                             <Link href="#link">
-                                <span className="text-nowrap">Coba sekarang</span>
-                                <ChevronRight className="ml-1" />
+                                <span className="group relative text-nowrap">Coba sekarang</span>
+                                <ChevronRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
                             </Link>
                         </Button>
 

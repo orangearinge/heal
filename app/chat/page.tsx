@@ -98,9 +98,6 @@ export default function ChatPage() {
     <div className="flex h-screen w-full flex-col bg-background">
       {/* Header */}
       <header className="flex justify-end px-6 py-3">
-        {/* <div className="flex items-center gap-2">
-          <h1 className="font-semibold text-xl">H</h1>
-        </div> */}
         <div className="flex gap-4">
 
           <Button variant="outline">

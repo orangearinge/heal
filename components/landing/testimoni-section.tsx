@@ -6,7 +6,7 @@ export default function TestimoniSection() {
         <section className="py-16 md:py-32">
             <div className="mx-auto space-y-8 px-6 md:space-y-16">
                 <div className="relative z-10 max-w-xl space-y-2 md:space-y-4">
-                    <h2 className="text-4xl font-medium lg:text-5xl">What our customers say</h2>
+                    <h2 className="text-4xl font-normal lg:text-3xl">What our {" "}<span className='text-muted-foreground'>customers say</span></h2>
                     <p>We're not just a platform, we're a community of people who care about their health and well-being.</p>
                 </div>
 
