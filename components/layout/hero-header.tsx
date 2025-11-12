@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { UserButton } from './user-button'
+import { ModeToggle } from './mode-toggle'
 
 const menuItems = [
     { name: 'Features', href: '#link' },
@@ -93,6 +94,8 @@ export const HeroHeader = () => {
                                         <span>Sign in</span>
                                     </Link>
                                 </Button>
+                                <ModeToggle />
+
                                 {/* <Button
                   asChild
                   size="sm"
