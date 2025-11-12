@@ -1,5 +1,6 @@
 import CTASection from "@/components/landing/cta-section";
 import FAQSection from "@/components/landing/faq-section";
+import FeatureBlokSection from "@/components/landing/feature-blok-section";
 import FeatureSection from "@/components/landing/feature-section";
 import FooterSection from "@/components/landing/footer-section.tsx";
 import HeroSection from "@/components/landing/hero-section";
@@ -13,6 +14,7 @@ export default function Home() {
       <HeroHeader />
       <HeroSection />
       <FeatureSection />
+      <FeatureBlokSection />
       <ProblemSolutionSection />
       <FAQSection />
       <TestimoniSection />
