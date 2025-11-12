@@ -5,10 +5,12 @@ import FooterSection from "@/components/landing/footer-section.tsx";
 import HeroSection from "@/components/landing/hero-section";
 import ProblemSolutionSection from "@/components/landing/problem-solution-section";
 import TestimoniSection from "@/components/landing/testimoni-section";
+import { HeroHeader } from "@/components/layout/hero-header";
 
 export default function Home() {
   return (
     <main className="flex flex-col gap-4 ">
+      <HeroHeader />
       <HeroSection />
       <FeatureSection />
       <ProblemSolutionSection />
