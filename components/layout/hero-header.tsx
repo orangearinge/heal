@@ -1,16 +1,13 @@
 // components/header-client.tsx
 'use client'
 import Link from 'next/link'
-import { Logo } from '@/components/layout/logo'
-import { Languages, Menu, X } from 'lucide-react'
+import {Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
 
-import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
-import { UserButton } from './user-button'
 import { ModeToggle } from './mode-toggle'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { HyperText } from '../ui/hyper-text'
 
 const menuItems = [
@@ -42,7 +39,7 @@ export const HeroHeader = () => {
             <nav
                 data-state={menuState && 'active'}
                 className="fixed z-20 w-full ">
-                <div className={cn(' transition-all duration-300 lg:px-12 pt-2', isScrolled && 'bg-background pt-0    backdrop-blur-lg lg:px-5', isNotLanding && "px-5 lg:px-5")}>
+                <div className={cn(' transition-all duration-300 lg:px-12 px-7 pt-2', isScrolled && 'bg-background pt-0    backdrop-blur-lg lg:px-5', isNotLanding && "px-5 lg:px-5")}>
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-2 lg:gap-0 lg:py-2">
                         <div className="flex w-full justify-between lg:w-auto">
                             <Link
@@ -58,7 +55,8 @@ export const HeroHeader = () => {
                                 onClick={() => setMenuState(!menuState)}
                                 aria-label={menuState == true ? 'Close Menu' : 'Open Menu'}
                                 className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
-                                <Menu className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
+                                <Menu className={cn("in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200", isScrolled ? "text-foreground" : "text-white")}
+                                />
                                 <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
                             </button>
                         </div>
@@ -92,12 +90,13 @@ export const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                                <ModeToggle className={cn(!isScrolled && 'text-white')} />
 
                                 <Button
                                     asChild
                                     size="lg"
                                     className={cn(
-                                        (isScrolled ? 'rounded-full ' : 'rounded-full dark bg-white/20 text-white ')
+                                        (isScrolled ? 'rounded-full  ' : 'rounded-full dark bg-white/20 hover:bg-white/30 text-white ')
                                     )}
                                 // className={cn(isScrolled && 'lg:hidden')}
                                 >
@@ -105,17 +104,15 @@ export const HeroHeader = () => {
                                         <span>Sign in</span>
                                     </Link>
                                 </Button>
-                                <ModeToggle className={cn(!isScrolled && 'text-white')} />
-
-                                {/* <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
-                  <Link href="#">
-
-                    <span>Get Started</span>
-                  </Link>
-                </Button> */}
+                                {/* <Select>
+                                    <SelectTrigger showChevron={false} size="sm">
+                                        <Languages className={cn(isScrolled ? 'text-foreground' : 'text-white')} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="en">English</SelectItem>
+                                        <SelectItem value="id">Bahasa Indonesia</SelectItem>
+                                    </SelectContent>
+                                </Select> */}
                             </div>
                         </div>
                     </div>
@@ -123,4 +120,8 @@ export const HeroHeader = () => {
             </nav>
         </header>
     )
+
+
+
 }
+

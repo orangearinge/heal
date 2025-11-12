@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 export default function AboutSection() {
@@ -11,7 +10,7 @@ export default function AboutSection() {
                         About {" "}
                     </h2>
                     <p className="text-muted-foreground max-w-4xl">
-                        TrueHealness was created for those who are done guessing. For those who've felt unseen in a system that treats people like averages. We built a platform that listens deeply— to your biology, your habits, your goals, and your story. We translate scattered health data into clarity, connection, and care that actually fits.
+                        TrueHealness was created for those who are done guessing. For those who&apos;ve felt unseen in a system that treats people like averages. We built a platform that listens deeply— to your biology, your habits, your goals, and your story. We translate scattered health data into clarity, connection, and care that actually fits.
                     </p>
                 </div>
 

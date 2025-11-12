@@ -32,6 +32,24 @@ const DEFAULT_CHARACTER_SET = Object.freeze(
 
 const getRandomInt = (max: number): number => Math.floor(Math.random() * max)
 
+// Predefined motion components for common elements
+const MotionDiv = motion.div;
+const MotionSpan = motion.span;
+const MotionP = motion.p;
+const MotionH1 = motion.h1;
+const MotionH2 = motion.h2;
+const MotionH3 = motion.h3;
+
+// Static component map to avoid function calls during render
+const componentMap: Record<string, React.ComponentType<Record<string, unknown>>> = {
+  'div': MotionDiv,
+  'span': MotionSpan,
+  'p': MotionP,
+  'h1': MotionH1,
+  'h2': MotionH2,
+  'h3': MotionH3,
+};
+
 export function HyperText({
   children,
   className,
@@ -43,16 +61,14 @@ export function HyperText({
   characterSet = DEFAULT_CHARACTER_SET,
   ...props
 }: HyperTextProps) {
-  const MotionComponent = motion.create(Component, {
-    forwardMotionProps: true,
-  })
+  const MotionComponent = componentMap[String(Component)] || MotionDiv;
 
   const [displayText, setDisplayText] = useState<string[]>(() =>
     children.split("")
   )
   const [isAnimating, setIsAnimating] = useState(false)
   const iterationCount = useRef(0)
-  const elementRef = useRef<HTMLElement>(null)
+  const elementRef = useRef<HTMLDivElement>(null)
 
   const handleAnimationTrigger = () => {
     if (animateOnHover && !isAnimating) {
@@ -127,7 +143,6 @@ export function HyperText({
 
   return (
     <MotionComponent
-      ref={elementRef}
       className={cn("overflow-hidden py-2 text-4xl font-bold", className)}
       onMouseEnter={handleAnimationTrigger}
       {...props}

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { ArrowUp, CalendarCheck, Globe, Play, Plus, Signature, Sparkles, Target } from 'lucide-react'
+import Image from 'next/image'
 
 const MESCHAC_AVATAR = 'https://avatars.githubusercontent.com/u/47919550?v=4'
 const BERNARD_AVATAR = 'https://avatars.githubusercontent.com/u/31113941?v=4'
@@ -70,7 +71,7 @@ const MeetingIllustration = () => {
               <div
                 key={index}
                 className="bg-background size-7 rounded-full border p-0.5 shadow shadow-zinc-950/5">
-                <img
+                <Image
                   className="aspect-square rounded-full object-cover"
                   src={avatar.src}
                   alt={avatar.alt}
@@ -94,7 +95,7 @@ const CodeReviewIllustration = () => {
         <Card className="aspect-video w-4/5 translate-y-4 p-3 transition-transform duration-200 ease-in-out group-hover:-rotate-3">
           <div className="mb-3 flex items-center gap-2">
             <div className="bg-background size-6 rounded-full border p-0.5 shadow shadow-zinc-950/5">
-              <img
+              <Image
                 className="aspect-square rounded-full object-cover"
                 src={MESCHAC_AVATAR}
                 alt="M Irung"

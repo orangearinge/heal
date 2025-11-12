@@ -100,6 +100,25 @@ const addDefaultVariants = (variants: Variants) => ({
   visible: { ...defaultItemVariants.visible, ...variants.visible },
 });
 
+// Predefined motion components for common elements
+const MotionDiv = motion.div;
+const MotionSpan = motion.span;
+const MotionSection = motion.section;
+const MotionArticle = motion.article;
+const MotionUl = motion.ul;
+const MotionLi = motion.li;
+
+// Static component map to avoid function calls during render
+const componentMap: Record<string, React.ComponentType<Record<string, unknown>>> = {
+  'div': MotionDiv,
+  'span': MotionSpan,
+  'section': MotionSection,
+  'article': MotionArticle,
+  'ul': MotionUl,
+  'li': MotionLi,
+};
+
+
 function AnimatedGroup({
   children,
   className,
@@ -115,14 +134,8 @@ function AnimatedGroup({
   const containerVariants = variants?.container || selectedVariants.container;
   const itemVariants = variants?.item || selectedVariants.item;
 
-  const MotionComponent = React.useMemo(
-    () => motion.create(as as keyof JSX.IntrinsicElements),
-    [as]
-  );
-  const MotionChild = React.useMemo(
-    () => motion.create(asChild as keyof JSX.IntrinsicElements),
-    [asChild]
-  );
+  const MotionComponent = componentMap[String(as)] || MotionDiv;
+  const MotionChild = componentMap[String(asChild)] || MotionDiv;
 
   return (
     <MotionComponent

@@ -1,6 +1,5 @@
 import CTASection from "@/components/landing/cta-section";
 import FAQSection from "@/components/landing/faq-section";
-import FooterSection from "@/components/landing/footer-section.tsx";
 import HeroSection from "@/components/landing/hero-section";
 import LogoCloud from "@/components/landing/logo-cloud";
 import TestimoniSection from "@/components/landing/testimoni-section";

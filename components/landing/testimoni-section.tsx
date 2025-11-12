@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import Image from 'next/image'
 
 export default function TestimoniSection() {
     return (
@@ -7,18 +8,19 @@ export default function TestimoniSection() {
             <div className="mx-auto space-y-8 px-6 md:space-y-16">
                 <div className="relative z-10 max-w-xl space-y-2 md:space-y-4">
                     <h2 className="text-4xl font-normal lg:text-3xl">What our {" "}<span className='text-muted-foreground'>customers say</span></h2>
-                    <p>We're not just a platform, we're a community of people who care about their health and well-being.</p>
+                    <p>We&apos;re not just a platform, we&apos;re a community of people who care about their health and well-being.</p>
                 </div>
 
                 <div className="grid gap-4 [--color-card:var(--color-muted)] *:border-none *:shadow-none sm:grid-cols-2 md:grid-cols-4 lg:grid-rows-2 dark:[--color-muted:var(--color-zinc-900)]">
                     <Card className="grid grid-rows-[auto_1fr] gap-8 sm:col-span-2 sm:p-6 lg:row-span-2">
                         <CardHeader>
-                            <img
+                            <Image
                                 className="h-6 w-fit dark:invert"
                                 src="https://html.tailus.io/blocks/customers/nike.svg"
+                                
                                 alt="Nike Logo"
                                 height="24"
-                                width="auto"
+                                width="24"
                             />
                         </CardHeader>
                         <CardContent>
@@ -74,7 +76,7 @@ export default function TestimoniSection() {
                             <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
                                 <p>Great work on tailfolio template. This is one of the best personal website that I have seen so far!</p>
 
-                                <div className="grid items-center gap-3 [grid-template-columns:auto_1fr]">
+                                <div className="grid items-center gap-3 grid-cols-[auto_1fr]">
                                     <Avatar className="size-12">
                                         <AvatarImage
                                             src="https://tailus.io/images/reviews/yucel.webp"

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowUpRight, ChevronRight } from 'lucide-react'
+import {  ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 
 export default function HeroSection() {
