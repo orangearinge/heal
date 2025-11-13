@@ -16,8 +16,6 @@ import {
 import { useTheme } from "next-themes";
 
 import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 
 export function UserButton() {

@@ -34,13 +34,13 @@ export default function FAQsFour() {
 
     return (
         <section className="py-16 md:py-24">
-            <div className="mx-auto max-w-5xl px-4 md:px-6">
-                <div className="mx-auto max-w-xl text-center">
-                    <h2 className="text-balance text-3xl font-bold md:text-4xl lg:text-5xl">Frequently Asked Questions</h2>
+            <div className="mx-auto px-6 md:px-6">
+                <div className="">
+                    <h2 className="text-balance font-normal text-3xl  lg:text-3xl">Frequently Asked Questions</h2>
                     <p className="text-muted-foreground mt-4 text-balance">Discover quick and comprehensive answers to common questions about our platform, services, and features.</p>
                 </div>
 
-                <div className="mx-auto mt-12 max-w-xl">
+                <div className="mt-12">
                     <Accordion
                         type="single"
                         collapsible
@@ -63,7 +63,7 @@ export default function FAQsFour() {
                     </Accordion>
 
                     <p className="text-muted-foreground mt-6 px-8">
-                        Can't find what you're looking for? Contact our{' '}
+                        Can&apos;t find what you&apos;re looking for? Contact our{' '}
                         <Link
                             href="#"
                             className="text-primary font-medium hover:underline">

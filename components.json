@@ -19,6 +19,8 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@ai-elements": "https://registry.ai-sdk.dev/{name}.json"
+    "@ai-elements": "https://registry.ai-sdk.dev/{name}.json",
+    "@tailark": "https://tailark.com/r/{name}.json",
+    "@magicui": "https://magicui.design/r/{name}.json"
   }
 }

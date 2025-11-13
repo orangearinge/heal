@@ -1,17 +1,17 @@
+import { cn } from "@/lib/utils";
+import { HyperText } from "../ui/hyper-text";
 
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
 
 export const Logo = ({ className }: { className?: string; }) => {
     return (
         <div className="flex items-center gap-4">
-            <span className='font-mono  font-bold '>Heal</span>
+            <HyperText className={cn(className, "font-medium")}>TrueHealness</HyperText>
         </div>
     )
 }
 
 export const LogoIcon = ({ className }: { className?: string; }) => {
     return (
-        <span className='font-mono  font-bold '>Heal</span>
+        <HyperText className={cn(className, "font-medium")}>TrueHealness</HyperText>
     )
 }

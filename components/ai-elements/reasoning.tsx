@@ -69,11 +69,15 @@ export const Reasoning = memo(
     useEffect(() => {
       if (isStreaming) {
         if (startTime === null) {
-          setStartTime(Date.now());
+          // Use setTimeout to avoid cascading renders
+          setTimeout(() => setStartTime(Date.now()), 0);
         }
       } else if (startTime !== null) {
-        setDuration(Math.ceil((Date.now() - startTime) / MS_IN_S));
-        setStartTime(null);
+        const duration = Math.ceil((Date.now() - startTime) / MS_IN_S);
+        setTimeout(() => {
+          setDuration(duration);
+          setStartTime(null);
+        }, 0);
       }
     }, [isStreaming, startTime, setDuration]);
 

@@ -8,7 +8,6 @@ import {
 import { Loader } from "@/components/ai-elements/loader";
 import {
   Message,
-  MessageAvatar,
   MessageContent,
 } from "@/components/ai-elements/message";
 import {
@@ -49,7 +48,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useChat } from "@ai-sdk/react";
 import { Fragment, useState } from "react";
-import { CopyIcon, GlobeIcon, RefreshCcwIcon, SparklesIcon } from "lucide-react";
+import { CopyIcon, GlobeIcon, RefreshCcwIcon } from "lucide-react";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 
 const models = [
@@ -98,21 +97,11 @@ export default function ChatPage() {
     <div className="flex h-screen w-full flex-col bg-background">
       {/* Header */}
       <header className="flex justify-end px-6 py-3">
-        {/* <div className="flex items-center gap-2">
-          <h1 className="font-semibold text-xl">H</h1>
-        </div> */}
-        <div className="flex gap-4">
 
-          <Button variant="outline">
-            Sign in
-          </Button>
-          <Button variant="default">
-            Sign up
-          </Button>
-        </div>
-        {/* <div className="justify-end">
+
+        <div className="justify-end">
           <ModeToggle />
-        </div> */}
+        </div>
       </header>
 
       {/* Main Content */}

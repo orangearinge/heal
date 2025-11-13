@@ -163,8 +163,12 @@ export const InlineCitationCarouselIndex = ({
       return;
     }
 
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
+    const updateCarouselState = () => {
+      setCount(api.scrollSnapList().length);
+      setCurrent(api.selectedScrollSnap() + 1);
+    };
+
+    updateCarouselState();
 
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap() + 1);
