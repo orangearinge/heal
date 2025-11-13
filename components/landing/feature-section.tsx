@@ -20,8 +20,8 @@ export default function FeatureSection() {
             <Card
               className="overflow-hidden p-6">
               <Target className="text-primary size-5" />
-              <h3 className="text-foreground mt-5 text-lg font-semibold">AI Code Generation</h3>
-              <p className="text-muted-foreground mt-3 text-balance">Our advanced AI models transform natural language into production-ready code.</p>
+              <h3 className="text-foreground mt-5 text-lg font-semibold">Context-Aware Response</h3>
+              <p className="text-muted-foreground mt-3 text-balance">Chatbot menyesuaikan respons berdasarkan data kesehatan pengguna — misalnya menyarankan istirahat ketika data menunjukkan kelelahan.</p>
 
               <MeetingIllustration />
             </Card>
@@ -29,16 +29,16 @@ export default function FeatureSection() {
             <Card
               className="group overflow-hidden px-6 pt-6">
               <CalendarCheck className="text-primary size-5" />
-              <h3 className="text-foreground mt-5 text-lg font-semibold">Intelligent Code Review</h3>
-              <p className="text-muted-foreground mt-3 text-balance">Our AI analyzes your code for bugs, security issues, and optimization opportunities.</p>
+              <h3 className="text-foreground mt-5 text-lg font-semibold">Simulated Wearable Integration</h3>
+              <p className="text-muted-foreground mt-3 text-balance">Menampilkan data simulasi dari smartwatch (detak jantung, langkah, dan durasi tidur) sebelum percakapan dimulai.</p>
 
               <CodeReviewIllustration />
             </Card>
             <Card
               className="group overflow-hidden px-6 pt-6">
               <Sparkles className="text-primary size-5" />
-              <h3 className="text-foreground mt-5 text-lg font-semibold">Contextual AI Assistant</h3>
-              <p className="text-muted-foreground mt-3 text-balance">A personalized AI companion that understands your codebase and helps solve complex...</p>
+              <h3 className="text-foreground mt-5 text-lg font-semibold">Smart Health Chatbot</h3>
+              <p className="text-muted-foreground mt-3 text-balance">Chatbot AI yang memberikan saran dan edukasi kesehatan personal berdasarkan kondisi pengguna.</p>
 
               <div className="mask-b-from-50 -mx-2 -mt-2 px-2 pt-2">
                 <AIAssistantIllustration />
