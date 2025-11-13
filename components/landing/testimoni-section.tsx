@@ -15,39 +15,39 @@ import {
 // Data Testimoni
 const testimonials = [
   {
-    name: "Sarah Chen",
+    name: "Dede Fernanda",
     title: "Project Manager",
-    avatarSrc: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop",
+    avatarSrc: "https://avatars.githubusercontent.com/ddfrnnd",
     quote: "This platform made my experience seamless and enjoyable. The quality of service exceeded my expectations!",
   },
   {
-    name: "David Lee",
+    name: "Ahmed Saif",
     title: "Lead Developer",
-    avatarSrc: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&h=200&fit=crop",
+    avatarSrc: "https://avatars.githubusercontent.com/ahmdsaif87",
     quote: "Tailus has transformed the way I develop web applications. Their extensive collection of UI components is amazing.",
   },
   {
-    name: "Marcus Cole",
+    name: "Alifia Shasa",
     title: "Software Engineer",
-    avatarSrc: "https://images.unsplash.com/photo-1507003211169-0a1c373c6b9b?w=200&h=200&fit=crop",
+    avatarSrc: "https://avatars.githubusercontent.com/alifia-30",
     quote: "A game-changer for modern web development. The flexibility to customize every aspect is unparalleled.",
   },
   {
-    name: "Zara Al-Jamil",
+    name: "Wahyu Fadilah",
     title: "UX Designer",
-    avatarSrc: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop",
+    avatarSrc: "https://avatars.githubusercontent.com/fadilsflow",
     quote: "I can't recommend them enough. My project was handled with utmost care and precision. A 5-star experience!",
   },
   {
-    name: "Kenji Tanaka",
+    name: "Niss Zhra",
     title: "Creator, Tailkits",
-    avatarSrc: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200&h=200&fit=crop",
+    avatarSrc: "https://avatars.githubusercontent.com/nisszhra",
     quote: "From start to finish, the process was smooth and professional. The final product is outstanding.",
   },
   {
-    name: "Jasmine Okoro",
+    name: "Abdel Muwaffaq",
     title: "Software Engineer",
-    avatarSrc: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop",
+    avatarSrc: "https://avatars.githubusercontent.com/muwaffaqnabdel",
     quote: "They understood our vision perfectly and brought it to life. We will definitely be working with them again.",
   },
 ];
