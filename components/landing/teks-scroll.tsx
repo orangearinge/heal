@@ -22,22 +22,23 @@ export default function TeksScroll() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top top',     // mulai saat bagian atas section menyentuh atas viewport
-          end: '+=500',        // durasi scroll sebelum unpin (semakin besar, semakin lama stay)
-          scrub: true,          // sinkron dengan kecepatan scroll
-          pin: true,            // “menempel” di layar selama animasi
+          start: 'top top',
+          end: '+=1500',       // 🧠 makin besar makin lambat
+          scrub: 1.5,          // nilai >1 bikin transisi lebih halus
+          pin: true,
           anticipatePin: 1,
         },
       })
 
-      // animasi teks muncul satu-satu
+      // animasi muncul satu per satu, halus
       tl.from(textsRef.current, {
-        y: 100,
+        y: 120,
         opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
+        scale: 0.95,
+        duration: 1.2,
+        ease: 'power1.out',
         stagger: {
-          amount: 1.5, // total durasi antara kemunculan
+          amount: 2.2, // lebih panjang agar tiap teks muncul lebih lembut
           from: 'start',
         },
       })
