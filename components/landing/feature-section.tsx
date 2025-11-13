@@ -142,13 +142,16 @@ export default function FeatureSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id='features' className="relative z-30 bg-background">
+    <section ref={sectionRef} id='features' className="relative z-10 bg-background">
       <div className="py-24">
         <div className="mx-auto w-full  px-6">
           <div>
-            <h2 ref={titleRef} className="text-foreground  text-center items-center  text-balance text-4xl font-normal">Fitur unggulan untuk{" "} <span className='text-[#2d94b3]'>kesehatan yang lebih cerdas</span></h2>
+            <h2 ref={titleRef} className="text-foreground  text-center items-center  text-balance text-5xl font-normal">Fitur unggulan untuk{" "}
+              <br />
+              <span className='text-[#2d94b3]'>kesehatan yang lebih cerdas</span>
+            </h2>
           </div>
-          <div ref={cardsRef} className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div ref={cardsRef} className="mt-24 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Card
               className="overflow-hidden p-6">
               <h3 className="text-foreground mt-5 text-lg font-semibold">Smart Health Chatbot</h3>

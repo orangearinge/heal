@@ -41,7 +41,7 @@ export const HeroHeader = () => {
 
 
     return (
-        <header>
+        <header className='z-50'>
             <nav
                 data-state={menuState && 'active'}
                 className="fixed z-20 w-full ">

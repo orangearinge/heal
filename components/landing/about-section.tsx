@@ -89,7 +89,7 @@ export default function AboutSection() {
   }, [])
 
     return (
-        <section ref={sectionRef} id='about' className="relative z-40 bg-background py-16 md:py-32">
+        <section ref={sectionRef} id='about' className="relative z-10 bg-background py-16 md:py-32">
             <div className="mx-auto  flex flex-col items-center gap-16 px-6">
                 {/* Top content: title & description side by side */}
                 <div className="flex flex-col md:flex-row justify-between items-start w-full gap-8">

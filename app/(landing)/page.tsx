@@ -5,7 +5,6 @@ import LogoCloud from "@/components/landing/logo-cloud";
 import TestimoniSection from "@/components/landing/testimoni-section";
 import SyncWearablesSection from "@/components/landing/syncing-wearables-section";
 import FeatureSection from "@/components/landing/feature-section";
-import AboutSection from "@/components/landing/about-section";
 import TeksScroll from "@/components/landing/teks-scroll";
 
 export default function Home() {
@@ -18,7 +17,7 @@ export default function Home() {
         <TeksScroll />
         <FeatureSection />
         <TestimoniSection />
-        <AboutSection />
+        {/* <AboutSection /> */}
         <FAQSection />
       </div>
       <CTASection />

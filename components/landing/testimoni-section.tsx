@@ -91,13 +91,9 @@ export default function TestimoniSection() {
         {/* Header */}
         <div className="space-y-6">
           <h2 className="text-3xl md:text-4xl">
-            What Our Customers Say
+            Hear it from our clients
           </h2>
-          <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-            Real stories from real people! See how our services have transformed
-            their experiences.
-          </p>
-          <Button className="rounded-full">Book Now</Button> {/* Sesuaikan warna tombol */}
+          
         </div>
 
         {/* Bagian Avatar (Zigzag - BUKAN CAROUSEL LAGI) */}
@@ -125,7 +121,7 @@ export default function TestimoniSection() {
 
                   <div className={`relative ${positionClass}`}> {/* Wrapper untuk menggeser zigzag */}
                     <Avatar
-                      className={`size-16 md:size-20  transition-all duration-300 ${selectedIndex === index
+                      className={`size-16 md:size-20  transition-all duration-300 rounded ${selectedIndex === index
                         ? "ring-4 ring-[#2d94b3] ring-offset-2 ring-offset-black" // ring-offset-black untuk latar belakang gelap
                         : "ring-2 ring-gray-600"
                         }`}
@@ -133,7 +129,7 @@ export default function TestimoniSection() {
                       <AvatarImage
                         src={testimonial.avatarSrc}
                         alt={testimonial.name}
-                        className="rounded-full"
+                        className="rounded"
                       />
                       <AvatarFallback>
                         {testimonial.name.substring(0, 2)}
@@ -162,8 +158,8 @@ export default function TestimoniSection() {
           </CarouselContent>
 
           <div className="flex justify-center gap-4 mt-10">
-            <CarouselPrevious className="relative  translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
-            <CarouselNext className=" relative translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
+            <CarouselPrevious className="relative  translate-y-0" /> {/* Sesuaikan warna panah */}
+            <CarouselNext className=" relative translate-y-0" /> {/* Sesuaikan warna panah */}
           </div>
         </Carousel>
 

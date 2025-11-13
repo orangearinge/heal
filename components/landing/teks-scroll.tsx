@@ -12,14 +12,11 @@ export default function TeksScroll() {
   const textsRef = useRef<HTMLDivElement[]>([])
 
   const addToRefs = (el: HTMLDivElement | null) => {
-    if (el && !textsRef.current.includes(el)) {
-      textsRef.current.push(el)
-    }
+    if (el && !textsRef.current.includes(el)) textsRef.current.push(el)
   }
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial state for all text elements
       gsap.set(textsRef.current, {
         y: 100,
         opacity: 0,
@@ -30,16 +27,15 @@ export default function TeksScroll() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=2000', // Increased for more control
-          scrub: 1, // Smoother scrub value
+          end: '+=2000',
+          scrub: 1,
           pin: true,
           anticipatePin: 1,
-          pinSpacing: true, // Ensures proper spacing after pin
+          pinSpacing: true,
           invalidateOnRefresh: true,
         },
       })
 
-      // Improved animation sequence
       tl.to(textsRef.current, {
         y: 0,
         opacity: 1,
@@ -47,12 +43,10 @@ export default function TeksScroll() {
         duration: 1,
         ease: 'power2.out',
         stagger: {
-          amount: 1.5, // Optimized stagger timing
+          amount: 1.5,
           from: 'start',
         },
-      })
-        // Add a pause at the end to ensure animation completes
-        .to({}, { duration: 0.5 })
+      }).to({}, { duration: 0.5 })
     }, sectionRef)
 
     return () => ctx.revert()
@@ -61,54 +55,49 @@ export default function TeksScroll() {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col justify-center h-screen space-y-10 overflow-hidden px-6 items-center"
+      className="flex flex-col justify-center items-left items-center h-screen px-6 space-y-10 overflow-hidden bg-muted"
     >
-      {/* Add */}
-      <div ref={addToRefs} className="flex items-center space-x-4 rounded-full ">
-        <div className=' w-full relative h-full flex'>
-          <div className=' w-full relative h-full flex gap-4 border p-2 rounded '>
-            <Image
-              src={"/track.png"}
-              className='object-cover rounded rotate-6'
-              height={100}
-              width={100}
-              alt='ok'
-            />
-          </div>
-          <h2 className="text-8xl  text-balance text-[#af9150]">Track</h2>
-        </div >
-      </div>
-
-      {/* Send */}
-      <div ref={addToRefs} className="flex items-center space-x-4 ">
-        <div className=' w-full relative h-full flex gap-4 border p-2 rounded '>
+      {/* Track */}
+      <div ref={addToRefs} className="flex items-center space-x-4">
+        <div className="relative flex w-full h-full gap-4 bg-background p-2 rounded items-center">
           <Image
-            src={"/talk.png"}
-            className='object-cover rounded -rotate-6'
+            src="/track.png"
+            className="object-cover rounded"
             height={100}
             width={100}
-            alt='ok'
+            alt="Track"
           />
+          <h2 className="text-7xl md:text-8xl text-[#af9150] text-balance">Track</h2>
         </div>
-        <h2 className="text-8xl text-balance">Talk</h2>
-
       </div>
 
-      {/* Exchange */}
-      <div ref={addToRefs} className="flex items-center space-x-4 ">
-        <div className=' w-full relative h-full flex gap-4 border p-2 rounded '>
+      {/* Talk */}
+      <div ref={addToRefs} className="flex items-center space-x-4">
+        <div className="relative flex w-full h-full gap-4 bg-background p-2 rounded items-center">
           <Image
-            src={"/recover.png"}
-            className='object-cover rounded rotate-6'
+            src="/talk.png"
+            className="object-cover rounded"
             height={100}
             width={100}
-            alt='ok'
+            alt="Talk"
           />
+          <h2 className="text-7xl md:text-8xl text-balance">Talk</h2>
         </div>
-        <h2 className="text-8xl text-balance  text-[#2d94b3]">Recover</h2>
-
       </div>
 
+      {/* Recover */}
+      <div ref={addToRefs} className="flex items-center space-x-4">
+        <div className="relative flex w-full h-full gap-4 bg-background p-2 rounded items-center">
+          <Image
+            src="/recover.png"
+            className="object-cover rounded"
+            height={100}
+            width={100}
+            alt="Recover"
+          />
+          <h2 className="text-7xl md:text-8xl text-[#2d94b3] text-balance">Recover</h2>
+        </div>
+      </div>
     </section>
   )
 }
