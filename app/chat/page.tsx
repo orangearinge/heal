@@ -53,6 +53,7 @@ import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@clerk/nextjs";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { Card } from "@/components/ui/card";
 
 const models = [
   {
@@ -132,8 +133,11 @@ export default function ChatPage() {
         /* Empty State - Input di tengah */
         <div className="flex flex-1 flex-col items-center justify-center p-8">
           <div className="w-full max-w-2xl space-y-6">
-            <div className="text-center">
-              <h2 className="text-6xl font-bold font-mono mb-2">Heal.</h2>
+            <Card>
+              Hallo world
+            </Card>
+            <div className="text-left">
+              <h2 className="text-xl font-medium mb-2">Halo Fadil — aku Heal. Bagaimana aku bisa bantu hari ini? Kamu bisa tanya tentang tidur, kelelahan, stres, atau aktivitas fisik..</h2>
             </div>
 
             {/* Input di tengah */}

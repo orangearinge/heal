@@ -1,23 +1,99 @@
+'use client'
+
 import Image from "next/image";
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Highlighter } from "../ui/highlighter";
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function SyncWearablesSection() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const logoGridRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Split text into words and wrap each word in a span
+      if (titleRef.current) {
+        const text = titleRef.current.innerHTML
+        const words = text.split(' ')
+        titleRef.current.innerHTML = words
+          .map(word => `<span class="word-animate">${word}</span>`)
+          .join(' ')
+
+        const wordElements = titleRef.current.querySelectorAll('.word-animate')
+
+        // Set initial state for words
+        gsap.set(wordElements, {
+          y: 50,
+          opacity: 0,
+        })
+
+        // Animate words on scroll
+        gsap.to(wordElements, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
+
+      // Animate logo grid
+      if (logoGridRef.current) {
+        const logoItems = logoGridRef.current.children
+
+        gsap.set(logoItems, {
+          y: 60,
+          opacity: 0,
+          scale: 0.8,
+        })
+
+        gsap.to(logoItems, {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: 'back.out(1.7)',
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: logoGridRef.current,
+            start: 'top 85%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="solution" className="py-16 md:py-32">
+    <section id="solution" className="z-20 relative py-16 md:py-32 bg-background">
       <div className="mx-auto  flex flex-col items-center gap-16 px-6">
         {/* Top content: title & description side by side */}
-        <div className="flex flex-col md:flex-row justify-between items-start w-full gap-8">
-          <h2 className="text-4xl font-normal lg:text-3xl max-w-xl">
-            Menyinkronkan perangkat wearable, {" "}
-            <span className="text-muted-foreground">kami membantu Anda membuat keputusan kesehatan yang lebih cerdas.</span>
+        <div className="flex flex-col md:flex-row justify-between items-start w-full gap-8 text-center">
+          <h2 className="text-4xl font-normal lg:text-6xl w-full ">
+            Menyinkronkan perangkat{" "}
+            <span className="text-[#2d94b3]">
+              wearable
+            </span>
+            , kami membantu Anda membuat keputusan kesehatan yang lebih cerdas.
           </h2>
-          <p className="text-muted-foreground max-w-xl">
-            Data kesehatan Anda dari Apple Watch, Garmin, Oura Ring, dan Whoop kini terhubung dalam satu tempat. Heal menyatukannya untuk memberi Anda gambaran lengkap tentang tubuh dan kesejahteraan, sehingga setiap keputusan kesehatan bisa diambil dengan lebih mudah dan tepat.
-          </p>
         </div>
 
 
         {/* Bottom content: logo grid */}
-        <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-6 justify-items-start w-full">
+        <div ref={logoGridRef} className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-6 justify-items-start w-full">
           {[
             { src: "/AppleWatchLogoFull.svg", alt: "Apple Watch" },
             { src: "/GarminLogoFull.svg", alt: "Garmin" },

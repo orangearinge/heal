@@ -14,8 +14,8 @@ export default function Home() {
       <HeroSection />
       <LogoCloud />
       <div className="flex flex-col space-y-10">
-        <TeksScroll />
         <SyncWearablesSection />
+        <TeksScroll />
         <FeatureSection />
         <TestimoniSection />
         <AboutSection />

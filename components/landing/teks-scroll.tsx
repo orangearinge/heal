@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Plus, Send, Shuffle } from 'lucide-react'
+import Image from 'next/image'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,29 +19,40 @@ export default function TeksScroll() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Set initial state for all text elements
+      gsap.set(textsRef.current, {
+        y: 100,
+        opacity: 0,
+        scale: 0.8,
+      })
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=1500',       // 🧠 makin besar makin lambat
-          scrub: 1.5,          // nilai >1 bikin transisi lebih halus
+          end: '+=2000', // Increased for more control
+          scrub: 1, // Smoother scrub value
           pin: true,
           anticipatePin: 1,
+          pinSpacing: true, // Ensures proper spacing after pin
+          invalidateOnRefresh: true,
         },
       })
 
-      // animasi muncul satu per satu, halus
-      tl.from(textsRef.current, {
-        y: 120,
-        opacity: 0,
-        scale: 0.95,
-        duration: 1.2,
-        ease: 'power1.out',
+      // Improved animation sequence
+      tl.to(textsRef.current, {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        ease: 'power2.out',
         stagger: {
-          amount: 2.2, // lebih panjang agar tiap teks muncul lebih lembut
+          amount: 1.5, // Optimized stagger timing
           from: 'start',
         },
       })
+        // Add a pause at the end to ensure animation completes
+        .to({}, { duration: 0.5 })
     }, sectionRef)
 
     return () => ctx.revert()
@@ -50,31 +61,53 @@ export default function TeksScroll() {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col justify-center items-center h-screen space-y-10 overflow-hidden bg-white"
+      className="flex flex-col justify-center h-screen space-y-10 overflow-hidden px-6 mx-auto max-w-6xl"
     >
       {/* Add */}
-      <div ref={addToRefs} className="flex items-center space-x-4">
-        <div className="bg-green-500 text-white p-5 rounded-2xl flex items-center justify-center shadow-lg">
-          <Plus size={30} />
-        </div>
-        <h2 className="text-6xl font-bold text-green-500">Add</h2>
+      <div ref={addToRefs} className="flex items-center space-x-4 rounded-full ">
+        <div className=' w-full relative h-full flex'>
+          <h2 className="text-8xl  text-balance text-[#af9150]">Track</h2>
+          <div className=' w-full relative h-full flex gap-4 '>
+            <Image
+              src={"/tw.png"}
+              className='object-cover rounded-full'
+              height={100}
+              width={100}
+              alt='ok'
+            />
+          </div>
+        </div >
       </div>
 
       {/* Send */}
-      <div ref={addToRefs} className="flex items-center space-x-4">
-        <div className="bg-blue-500 text-white p-5 rounded-2xl flex items-center justify-center shadow-lg">
-          <Send size={30} />
+      <div ref={addToRefs} className="flex items-center space-x-4 ">
+        <div className=' w-full relative h-full flex gap-4  '>
+          <Image
+            src={"/talk.png"}
+            className='object-cover rounded-full'
+            height={100}
+            width={100}
+            alt='ok'
+          />
         </div>
-        <h2 className="text-6xl font-bold text-blue-500">Send</h2>
+        <h2 className="text-8xl text-balance">Talk</h2>
+
       </div>
 
       {/* Exchange */}
-      <div ref={addToRefs} className="flex items-center space-x-4">
-        <div className="bg-red-500 text-white p-5 rounded-2xl flex items-center justify-center shadow-lg">
-          <Shuffle size={30} />
+      <div ref={addToRefs} className="flex items-center space-x-4 ">
+        <h2 className="text-8xl text-balance  text-[#2d94b3]">Recover</h2>
+        <div className=' w-full relative h-full flex gap-4 '>
+          <Image
+            src={"/hero.png"}
+            className='object-cover rounded-full'
+            fill
+            alt='ok'
+          />
         </div>
-        <h2 className="text-6xl font-bold text-red-500">Exchange</h2>
+
       </div>
+
     </section>
   )
 }
