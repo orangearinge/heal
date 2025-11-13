@@ -6,6 +6,7 @@ import TestimoniSection from "@/components/landing/testimoni-section";
 import SyncWearablesSection from "@/components/landing/syncing-wearables-section";
 import FeatureSection from "@/components/landing/feature-section";
 import AboutSection from "@/components/landing/about-section";
+import TeksScroll from "@/components/landing/teks-scroll";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <HeroSection />
       <LogoCloud />
       <div className="flex flex-col space-y-10">
+        <TeksScroll />
         <SyncWearablesSection />
         <FeatureSection />
         <TestimoniSection />

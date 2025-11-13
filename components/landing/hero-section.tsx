@@ -1,15 +1,15 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import {  ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 
 export default function HeroSection() {
     return (
 
-        <div className="overflow-hidden min-h-screen lg:pt-44 relative">
+        <div className="overflow-hidden min-h-screen pt-44 relative">
             <Image
                 alt="hero image"
-                src="/waitlist.webp"
+                src="/hero.png"
                 fill
                 priority
                 className="object-cover p-2 rounded-4xl "

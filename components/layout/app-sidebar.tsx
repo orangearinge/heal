@@ -31,7 +31,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }, [sidebarOpen]);
 
     return (
-        <Sidebar {...props} collapsible="icon">
+        <Sidebar {...props} collapsible="offcanvas">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem className="flex justify-between items-center">

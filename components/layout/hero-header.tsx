@@ -1,11 +1,17 @@
 // components/header-client.tsx
 'use client'
 import Link from 'next/link'
-import {Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
-
+import {
+    SignInButton,
+    SignUpButton,
+    SignedIn,
+    SignedOut,
+    UserButton,
+} from '@clerk/nextjs'
 import { ModeToggle } from './mode-toggle'
 import { usePathname } from 'next/navigation'
 import { HyperText } from '../ui/hyper-text'
@@ -91,19 +97,33 @@ export const HeroHeader = () => {
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <ModeToggle className={cn(!isScrolled && 'text-white')} />
+                                <SignedOut>
+                                    <SignInButton mode='modal'>
+                                        <Button
+                                            size="lg"
+                                            className={cn(
+                                                (isScrolled ? 'rounded-full  ' : 'rounded-full dark bg-white/20 hover:bg-white/30 text-white ')
+                                            )}
+                                        // className={cn(isScrolled && 'lg:hidden')}
+                                        >
+                                            Sign in
+                                        </Button>
+                                    </SignInButton>
+                                </SignedOut>
+                                <SignedIn>
+                                    <Button
+                                        size="lg"
+                                        asChild
+                                        className={cn(
+                                            (isScrolled ? 'rounded-full  ' : 'rounded-full dark bg-white/20 hover:bg-white/30 text-white ')
 
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    className={cn(
-                                        (isScrolled ? 'rounded-full  ' : 'rounded-full dark bg-white/20 hover:bg-white/30 text-white ')
-                                    )}
-                                // className={cn(isScrolled && 'lg:hidden')}
-                                >
-                                    <Link href="/login">
-                                        <span>Sign in</span>
-                                    </Link>
-                                </Button>
+                                        )}>
+                                        <Link href="/chat">
+                                            Dashboard
+                                        </Link>
+                                    </Button>
+                                    <UserButton />
+                                </SignedIn>
                                 {/* <Select>
                                     <SelectTrigger showChevron={false} size="sm">
                                         <Languages className={cn(isScrolled ? 'text-foreground' : 'text-white')} />
@@ -117,8 +137,8 @@ export const HeroHeader = () => {
                         </div>
                     </div>
                 </div>
-            </nav>
-        </header>
+            </nav >
+        </header >
     )
 
 

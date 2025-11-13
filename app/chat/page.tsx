@@ -50,6 +50,7 @@ import { useChat } from "@ai-sdk/react";
 import { Fragment, useState } from "react";
 import { CopyIcon, GlobeIcon, RefreshCcwIcon } from "lucide-react";
 import { ModeToggle } from "@/components/layout/mode-toggle";
+import { UserButton } from "@clerk/nextjs";
 
 const models = [
   {
@@ -99,8 +100,12 @@ export default function ChatPage() {
       <header className="flex justify-end px-6 py-3">
 
 
-        <div className="justify-end">
+        <div className="flex item-center gap-4 justify-end">
+            
+
+
           <ModeToggle />
+          <UserButton />
         </div>
       </header>
 
