@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import { Plus, Search, PanelLeft } from "lucide-react"
+import { Plus, Search, PanelLeft, PlusCircle, BadgePlus } from "lucide-react"
 
 
 import {
@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/sidebar"
 import { UserButton } from "./user-button"
 import { cn } from "@/lib/utils"
+import { Logo } from "./logo"
+import { Button } from "../ui/button"
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -37,7 +39,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarMenuItem className="flex justify-between items-center">
                         {sidebarOpen ? (
                             <SidebarMenuButton className="w-fit">
-                                <span>H.</span>
+                                <Logo className="text-md" />
                             </SidebarMenuButton>
                         ) : (
                             <SidebarMenuButton
@@ -82,29 +84,28 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarGroupContent className="flex flex-col gap-4">
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton variant={"outline"}>
-                                    < Plus />
-                                    <span className="text-base  hover">New Chat</span>
+                                <SidebarMenuButton asChild>
+                                    <Button variant={"outline"} className="flex justify-start rounded-full py-5" >
+                                        <Search />
+                                        <span className="text-base  hover">Search<kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
+                                            <span className="text-xs">⌘</span>K
+                                        </kbd>
+                                        </span>
+                                    </Button>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
-                        </SidebarMenu>
-                        <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton>
-                                    < Search />
-                                    <span className="text-base  hover">Search</span>
+                                <SidebarMenuButton asChild>
+                                    <Button variant={"secondary"} className="flex justify-start py-5">
+                                        <BadgePlus />
+                                        <span className="text-base  hover">New Chat<kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
+                                            <span className="text-xs">⌘</span>J
+                                        </kbd>
+                                        </span>
+                                    </Button>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton>
-                                    < Plus />
-                                    <span className="text-base  hover">New Chat</span>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-
                     </SidebarGroupContent>
                 </SidebarGroup>
 
