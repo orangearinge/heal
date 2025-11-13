@@ -3,66 +3,77 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Plus, Send, Shuffle } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function TeksScroll() {
-    const sectionRef = useRef<HTMLDivElement>(null)
-    const textsRef = useRef<HTMLHeadingElement[]>([])
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const textsRef = useRef<HTMLDivElement[]>([])
 
-    const addToRefs = (el: HTMLHeadingElement | null) => {
-        if (el && !textsRef.current.includes(el)) {
-            textsRef.current.push(el)
-        }
+  const addToRefs = (el: HTMLDivElement | null) => {
+    if (el && !textsRef.current.includes(el)) {
+      textsRef.current.push(el)
     }
+  }
 
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: 'top 80%', // mulai muncul saat section masuk viewport
-                    end: 'bottom top',
-                    scrub: false,
-                    toggleActions: 'play none none reverse',
-                },
-            })
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',     // mulai saat bagian atas section menyentuh atas viewport
+          end: '+=500',        // durasi scroll sebelum unpin (semakin besar, semakin lama stay)
+          scrub: true,          // sinkron dengan kecepatan scroll
+          pin: true,            // “menempel” di layar selama animasi
+          anticipatePin: 1,
+        },
+      })
 
-            tl.from(textsRef.current, {
-                y: 80,
-                opacity: 0,
-                duration: 0.6,
-                ease: 'power3.out',
-                stagger: 0.4, // muncul satu-satu
-            })
-        }, sectionRef)
+      // animasi teks muncul satu-satu
+      tl.from(textsRef.current, {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: {
+          amount: 1.5, // total durasi antara kemunculan
+          from: 'start',
+        },
+      })
+    }, sectionRef)
 
-        return () => ctx.revert()
-    }, [])
+    return () => ctx.revert()
+  }, [])
 
-    return (
-        <section
-            ref={sectionRef}
-            className="flex flex-col justify-center items-center space-y-10 overflow-hidden"
-        >
-            <h2
-                ref={addToRefs}
-                className="text-4xl font-bold text-green-600"
-            >
-                Track
-            </h2>
-            <h2
-                ref={addToRefs}
-                className="text-4xl font-bold text-blue-500"
-            >
-                Talk
-            </h2>
-            <h2
-                ref={addToRefs}
-                className="text-4xl font-bold text-red-500"
-            >
-                Recover
-            </h2>
-        </section>
-    )
+  return (
+    <section
+      ref={sectionRef}
+      className="flex flex-col justify-center items-center h-screen space-y-10 overflow-hidden bg-white"
+    >
+      {/* Add */}
+      <div ref={addToRefs} className="flex items-center space-x-4">
+        <div className="bg-green-500 text-white p-5 rounded-2xl flex items-center justify-center shadow-lg">
+          <Plus size={30} />
+        </div>
+        <h2 className="text-6xl font-bold text-green-500">Add</h2>
+      </div>
+
+      {/* Send */}
+      <div ref={addToRefs} className="flex items-center space-x-4">
+        <div className="bg-blue-500 text-white p-5 rounded-2xl flex items-center justify-center shadow-lg">
+          <Send size={30} />
+        </div>
+        <h2 className="text-6xl font-bold text-blue-500">Send</h2>
+      </div>
+
+      {/* Exchange */}
+      <div ref={addToRefs} className="flex items-center space-x-4">
+        <div className="bg-red-500 text-white p-5 rounded-2xl flex items-center justify-center shadow-lg">
+          <Shuffle size={30} />
+        </div>
+        <h2 className="text-6xl font-bold text-red-500">Exchange</h2>
+      </div>
+    </section>
+  )
 }
