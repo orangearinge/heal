@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import { Plus, Search, PanelLeft, PlusCircle, BadgePlus } from "lucide-react"
+import { Search, PanelLeft, BadgePlus } from "lucide-react"
 
 
 import {

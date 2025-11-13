@@ -51,7 +51,7 @@ import { Fragment, useState } from "react";
 import { CopyIcon, GlobeIcon, Plus, RefreshCcwIcon, Sidebar } from "lucide-react";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@clerk/nextjs";
-import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Card } from "@/components/ui/card";
 
@@ -108,7 +108,7 @@ export default function ChatPage() {
           {!open && (
             <div className="">
               <ButtonGroup  >
-                <Button className="rounded-full" variant={"outline"} onClick={(event) => {
+                <Button className="rounded-full" variant={"outline"} onClick={() => {
                   toggleSidebar()
                 }}>
                   <Sidebar />

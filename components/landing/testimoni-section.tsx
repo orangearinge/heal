@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -93,7 +92,7 @@ export default function TestimoniSection() {
           <h2 className="text-3xl md:text-4xl">
             Hear it from our clients
           </h2>
-          
+
         </div>
 
         {/* Bagian Avatar (Zigzag - BUKAN CAROUSEL LAGI) */}

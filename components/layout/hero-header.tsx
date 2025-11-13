@@ -7,7 +7,6 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 import {
     SignInButton,
-    SignUpButton,
     SignedIn,
     SignedOut,
     UserButton,
