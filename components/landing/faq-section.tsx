@@ -2,8 +2,112 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import Link from 'next/link'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function FAQsFour() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const descriptionRef = useRef<HTMLParagraphElement>(null)
+  const accordionRef = useRef<HTMLDivElement>(null)
+  const footerRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate title
+      if (titleRef.current) {
+        gsap.set(titleRef.current, {
+          y: 40,
+          opacity: 0,
+        })
+
+        gsap.to(titleRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: 'top 85%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
+
+      // Animate description
+      if (descriptionRef.current) {
+        gsap.set(descriptionRef.current, {
+          y: 30,
+          opacity: 0,
+        })
+
+        gsap.to(descriptionRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          delay: 0.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: descriptionRef.current,
+            start: 'top 85%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
+
+      // Animate accordion
+      if (accordionRef.current) {
+        gsap.set(accordionRef.current, {
+          y: 50,
+          opacity: 0,
+        })
+
+        gsap.to(accordionRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          delay: 0.4,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: accordionRef.current,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
+
+      // Animate footer
+      if (footerRef.current) {
+        gsap.set(footerRef.current, {
+          y: 20,
+          opacity: 0,
+        })
+
+        gsap.to(footerRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          delay: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: 'top 85%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
     const faqItems = [
         {
             id: 'item-1',
@@ -33,15 +137,16 @@ export default function FAQsFour() {
     ]
 
     return (
-        <section className="py-16 md:py-24">
+        <section ref={sectionRef} className="relative z-50 bg-background py-16 md:py-24">
             <div className="mx-auto px-6 md:px-6">
                 <div className="">
-                    <h2 className="text-balance font-normal text-3xl  lg:text-3xl">Frequently Asked Questions</h2>
-                    <p className="text-muted-foreground mt-4 text-balance">Discover quick and comprehensive answers to common questions about our platform, services, and features.</p>
+                    <h2 ref={titleRef} className="text-balance font-normal text-3xl  lg:text-3xl">Frequently Asked Questions</h2>
+                    <p ref={descriptionRef} className="text-muted-foreground mt-4 text-balance">Discover quick and comprehensive answers to common questions about our platform, services, and features.</p>
                 </div>
 
                 <div className="mt-12">
                     <Accordion
+                        ref={accordionRef}
                         type="single"
                         collapsible
                         className="bg-muted dark:bg-muted/50 w-full rounded-2xl p-1">
@@ -62,7 +167,7 @@ export default function FAQsFour() {
                         ))}
                     </Accordion>
 
-                    <p className="text-muted-foreground mt-6 px-8">
+                    <p ref={footerRef} className="text-muted-foreground mt-6 px-8">
                         Can&apos;t find what you&apos;re looking for? Contact our{' '}
                         <Link
                             href="#"

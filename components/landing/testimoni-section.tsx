@@ -86,26 +86,26 @@ export default function TestimoniSection() {
   };
 
   return (
-    <section className="py-16 md:py-32 w-full bg-black text-white"> {/* Pastikan latar belakang gelap */}
+    <section className="py-16 md:py-32 w-full "> {/* Pastikan latar belakang gelap */}
       <div className="container mx-auto max-w-4xl space-y-20 text-center">
-        
+
         {/* Header */}
         <div className="space-y-6">
-          <h2 className="text-3xl font-bold md:text-4xl">
+          <h2 className="text-3xl md:text-4xl">
             What Our Customers Say
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
             Real stories from real people! See how our services have transformed
             their experiences.
           </p>
-          <Button className="bg-white text-black hover:bg-gray-200">Book Now</Button> {/* Sesuaikan warna tombol */}
+          <Button className="rounded-full">Book Now</Button> {/* Sesuaikan warna tombol */}
         </div>
 
         {/* Bagian Avatar (Zigzag - BUKAN CAROUSEL LAGI) */}
         <div className="relative w-full max-w-3xl mx-auto py-8"> {/* Menambah padding-y agar ring tidak terpotong */}
           {/* Garis Putus-putus */}
           <div className="absolute left-0 right-0 top-1/2 h-0 -translate-y-1/2 border-t-2 border-dotted border-gray-700" />
-          
+
           <div className="flex justify-between items-center h-20 relative"> {/* Container flex untuk avatar */}
             {testimonials.map((testimonial, index) => {
               // Menentukan posisi zigzag
@@ -123,19 +123,18 @@ export default function TestimoniSection() {
                   onClick={() => onThumbClick(index)}
                 >
                   {/* Lingkaran hitam kecil */}
-                  <div className={`absolute -left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-3 bg-gray-900 rounded-full border-2 border-white z-20 ${selectedIndex === index ? "border-red-500" : ""}`} />
-                  
+
                   <div className={`relative ${positionClass}`}> {/* Wrapper untuk menggeser zigzag */}
                     <Avatar
-                      className={`size-16 md:size-20 p-1 transition-all duration-300 ${
-                        selectedIndex === index
-                          ? "ring-4 ring-red-500 ring-offset-2 ring-offset-black" // ring-offset-black untuk latar belakang gelap
-                          : "ring-2 ring-gray-600"
-                      }`}
+                      className={`size-16 md:size-20  transition-all duration-300 ${selectedIndex === index
+                        ? "ring-4 ring-[#2d94b3] ring-offset-2 ring-offset-black" // ring-offset-black untuk latar belakang gelap
+                        : "ring-2 ring-gray-600"
+                        }`}
                     >
                       <AvatarImage
                         src={testimonial.avatarSrc}
                         alt={testimonial.name}
+                        className="rounded-full"
                       />
                       <AvatarFallback>
                         {testimonial.name.substring(0, 2)}
@@ -161,13 +160,13 @@ export default function TestimoniSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          
+
           <div className="flex justify-center gap-4 mt-10">
-             <CarouselPrevious className="relative static translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
-             <CarouselNext className="relative static translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
+            <CarouselPrevious className="relative static translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
+            <CarouselNext className="relative static translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
           </div>
         </Carousel>
-        
+
       </div>
     </section>
   );

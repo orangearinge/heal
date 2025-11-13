@@ -15,19 +15,53 @@ export default function SyncWearablesSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Split text into words and wrap each word in a span
+      // Animate title with proper HTML handling
       if (titleRef.current) {
-        const text = titleRef.current.innerHTML
-        const words = text.split(' ')
-        titleRef.current.innerHTML = words
-          .map(word => `<span class="word-animate">${word}</span>`)
-          .join(' ')
+        // Function to wrap text nodes with spans while preserving HTML structure
+        const wrapTextNodes = (element: HTMLElement) => {
+          const walker = document.createTreeWalker(
+            element,
+            NodeFilter.SHOW_TEXT,
+            null
+          )
+          
+          const textNodes: Text[] = []
+          let node
+          
+          while (node = walker.nextNode()) {
+            if (node.textContent?.trim()) {
+              textNodes.push(node as Text)
+            }
+          }
+          
+          textNodes.forEach(textNode => {
+            const words = textNode.textContent?.split(' ').filter(word => word.trim()) || []
+            if (words.length > 0) {
+              const fragment = document.createDocumentFragment()
+              
+              words.forEach((word, index) => {
+                const span = document.createElement('span')
+                span.className = 'word-animate'
+                span.textContent = word
+                fragment.appendChild(span)
+                
+                if (index < words.length - 1) {
+                  fragment.appendChild(document.createTextNode(' '))
+                }
+              })
+              
+              textNode.parentNode?.replaceChild(fragment, textNode)
+            }
+          })
+        }
 
+        wrapTextNodes(titleRef.current)
+        
         const wordElements = titleRef.current.querySelectorAll('.word-animate')
 
         // Set initial state for words
         gsap.set(wordElements, {
-          y: 50,
+          y: 30,
           opacity: 0,
         })
 
@@ -35,9 +69,9 @@ export default function SyncWearablesSection() {
         gsap.to(wordElements, {
           y: 0,
           opacity: 1,
-          duration: 0.8,
+          duration: 0.6,
           ease: 'power2.out',
-          stagger: 0.1,
+          stagger: 0.08,
           scrollTrigger: {
             trigger: titleRef.current,
             start: 'top 80%',
@@ -78,10 +112,10 @@ export default function SyncWearablesSection() {
   }, [])
 
   return (
-    <section id="solution" className="z-20 relative py-16 md:py-32 bg-background">
+    <section ref={sectionRef} id="solution" className="z-20 relative py-16 md:py-32 bg-background">
       <div className="mx-auto  flex flex-col items-center gap-16 px-6">
         {/* Top content: title & description side by side */}
-        <div className="flex flex-col md:flex-row justify-between items-start w-full gap-8 text-center">
+        <div ref={titleRef}className="flex flex-col md:flex-row justify-between items-start w-full gap-8 text-center">
           <h2 className="text-4xl font-normal lg:text-6xl w-full ">
             Menyinkronkan perangkat{" "}
             <span className="text-[#2d94b3]">

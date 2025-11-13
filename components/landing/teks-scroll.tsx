@@ -61,30 +61,30 @@ export default function TeksScroll() {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col justify-center h-screen space-y-10 overflow-hidden px-6 mx-auto max-w-6xl"
+      className="flex flex-col justify-center h-screen space-y-10 overflow-hidden px-6 items-center"
     >
       {/* Add */}
       <div ref={addToRefs} className="flex items-center space-x-4 rounded-full ">
         <div className=' w-full relative h-full flex'>
-          <h2 className="text-8xl  text-balance text-[#af9150]">Track</h2>
-          <div className=' w-full relative h-full flex gap-4 '>
+          <div className=' w-full relative h-full flex gap-4 border p-2 rounded '>
             <Image
-              src={"/tw.png"}
-              className='object-cover rounded-full'
+              src={"/track.png"}
+              className='object-cover rounded rotate-6'
               height={100}
               width={100}
               alt='ok'
             />
           </div>
+          <h2 className="text-8xl  text-balance text-[#af9150]">Track</h2>
         </div >
       </div>
 
       {/* Send */}
       <div ref={addToRefs} className="flex items-center space-x-4 ">
-        <div className=' w-full relative h-full flex gap-4  '>
+        <div className=' w-full relative h-full flex gap-4 border p-2 rounded '>
           <Image
             src={"/talk.png"}
-            className='object-cover rounded-full'
+            className='object-cover rounded -rotate-6'
             height={100}
             width={100}
             alt='ok'
@@ -96,15 +96,16 @@ export default function TeksScroll() {
 
       {/* Exchange */}
       <div ref={addToRefs} className="flex items-center space-x-4 ">
-        <h2 className="text-8xl text-balance  text-[#2d94b3]">Recover</h2>
-        <div className=' w-full relative h-full flex gap-4 '>
+        <div className=' w-full relative h-full flex gap-4 border p-2 rounded '>
           <Image
-            src={"/hero.png"}
-            className='object-cover rounded-full'
-            fill
+            src={"/recover.png"}
+            className='object-cover rounded rotate-6'
+            height={100}
+            width={100}
             alt='ok'
           />
         </div>
+        <h2 className="text-8xl text-balance  text-[#2d94b3]">Recover</h2>
 
       </div>
 
