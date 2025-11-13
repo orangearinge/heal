@@ -48,9 +48,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useChat } from "@ai-sdk/react";
 import { Fragment, useState } from "react";
-import { CopyIcon, GlobeIcon, RefreshCcwIcon } from "lucide-react";
+import { CopyIcon, GlobeIcon, Plus, RefreshCcwIcon, Sidebar } from "lucide-react";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@clerk/nextjs";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import { ButtonGroup } from "@/components/ui/button-group";
 
 const models = [
   {
@@ -68,6 +70,7 @@ export default function ChatPage() {
   const [model, setModel] = useState<string>(models[0].value);
   const [webSearch, setWebSearch] = useState(false);
   const { messages, sendMessage, status, regenerate } = useChat();
+  const { open, toggleSidebar } = useSidebar();
 
   const hasMessages = messages.length > 0;
 
@@ -97,13 +100,28 @@ export default function ChatPage() {
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       {/* Header */}
-      <header className="flex justify-end px-6 py-3">
+      <header className="flex justify-between px-6 py-3">
 
 
-        <div className="flex item-center gap-4 justify-end">
-            
+        <div className="flex item-center justify-center gap-4">
+          {!open && (
+            <div className="">
+              <ButtonGroup  >
+                <Button className="rounded-full" variant={"outline"} onClick={(event) => {
+                  toggleSidebar()
+                }}>
+                  <Sidebar />
+                </Button>
+                <Button className="rounded-full" variant={"outline"}>
+                  <Plus />
+                </Button>
+              </ButtonGroup>
+            </div>
+          )}
 
 
+        </div>
+        <div className="flex item-center justify-center  gap-4">
           <ModeToggle />
           <UserButton />
         </div>
