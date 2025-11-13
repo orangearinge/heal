@@ -146,31 +146,31 @@ export default function FeatureSection() {
       <div className="py-24">
         <div className="mx-auto w-full  px-6">
           <div>
-            <h2 ref={titleRef} className="text-foreground  text-center items-center  text-balance text-4xl font-normal">Empowering developers with{" "} <span className='text-[#2d94b3]'>AI-driven solutions</span></h2>
+            <h2 ref={titleRef} className="text-foreground  text-center items-center  text-balance text-4xl font-normal">Fitur unggulan untuk{" "} <span className='text-[#2d94b3]'>kesehatan yang lebih cerdas</span></h2>
           </div>
           <div ref={cardsRef} className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Card
               className="overflow-hidden p-6">
-              <h3 className="text-foreground mt-5 text-lg font-semibold">Context-Aware Response</h3>
-              <p className="text-muted-foreground mt-3 text-balance">Chatbot menyesuaikan respons berdasarkan data kesehatan pengguna — misalnya menyarankan istirahat ketika data menunjukkan kelelahan.</p>
+              <h3 className="text-foreground mt-5 text-lg font-semibold">Smart Health Chatbot</h3>
+              <p className="text-muted-foreground mt-3 text-balance">Asisten AI yang memberikan saran dan edukasi kesehatan personal berdasarkan kondisi tubuh dan kebutuhan unik Anda setiap hari.</p>
 
-              <MeetingIllustration />
+              <AIAssistantIllustration />
             </Card>
 
             <Card
               className="group overflow-hidden px-6 pt-6">
-              <h3 className="text-foreground mt-5 text-lg font-semibold">Simulated Wearable Integration</h3>
-              <p className="text-muted-foreground mt-3 text-balance">Menampilkan data simulasi dari smartwatch (detak jantung, langkah, dan durasi tidur) sebelum percakapan dimulai.</p>
+              <h3 className="text-foreground mt-5 text-lg font-semibold">Integrasi Wearable Devices</h3>
+              <p className="text-muted-foreground mt-3 text-balance">Terhubung dengan Garmin, Oura Ring, dan Apple Watch untuk memantau detak jantung, langkah harian, dan kualitas tidur secara real-time.</p>
 
               <CodeReviewIllustration />
             </Card>
             <Card
               className="group overflow-hidden px-6 pt-6">
-              <h3 className="text-foreground mt-5 text-lg font-semibold">Smart Health Chatbot</h3>
-              <p className="text-muted-foreground mt-3 text-balance">Chatbot AI yang memberikan saran dan edukasi kesehatan personal berdasarkan kondisi pengguna.</p>
+              <h3 className="text-foreground mt-5 text-lg font-semibold">Respons Kontekstual Cerdas</h3>
+              <p className="text-muted-foreground mt-3 text-balance">Heal memahami kondisi tubuh Anda dan memberikan saran yang tepat waktu — seperti rekomendasi istirahat saat data menunjukkan kelelahan.</p>
 
               <div className="mask-b-from-50 -mx-2 -mt-2 px-2 pt-2">
-                <AIAssistantIllustration />
+                <MeetingIllustration />
               </div>
             </Card>
           </div>
@@ -185,9 +185,9 @@ const MeetingIllustration = () => {
     <Card
       aria-hidden
       className="mt-9 aspect-video p-4">
-      <div className="mb-0.5 text-sm font-semibold">AI Strategy Meeting</div>
+      <div className="mb-0.5 text-sm font-semibold">Health Check Reminder</div>
       <div className="mb-4 flex gap-2 text-sm">
-        <span className="text-muted-foreground">2:30 - 3:45 PM</span>
+        <span className="text-muted-foreground">Berdasarkan data Anda</span>
       </div>
       <div className="mb-2 flex -space-x-1.5">
         <div className="flex -space-x-1.5">
@@ -211,7 +211,7 @@ const MeetingIllustration = () => {
           ))}
         </div>
       </div>
-      <div className="text-muted-foreground text-sm font-medium">ML Pipeline Discussion</div>
+      <div className="text-muted-foreground text-sm font-medium">Tim Ahli Kesehatan</div>
     </Card>
   )
 }
@@ -232,9 +232,9 @@ const CodeReviewIllustration = () => {
               width="460"
             />
           </div>
-          <span className="text-muted-foreground text-sm font-medium">Méschac Irung</span>
+          <span className="text-muted-foreground text-sm font-medium">Dr. Heal Assistant</span>
 
-          <span className="text-muted-foreground/75 text-xs">2m</span>
+          <span className="text-muted-foreground/75 text-xs">Aktif</span>
         </div>
 
         <div className="ml-8 space-y-2">
@@ -260,10 +260,10 @@ const AIAssistantIllustration = () => {
       aria-hidden
       className="mt-6 aspect-video translate-y-4 p-4 pb-6 transition-transform duration-200 group-hover:translate-y-0">
       <div className="w-fit">
-        <p className="mt-2 line-clamp-2 text-sm">How can I optimize my neural network to reduce inference time while maintaining accuracy?</p>
+        <p className="mt-2 line-clamp-2 text-sm">Bagaimana cara meningkatkan kualitas tidur saya berdasarkan data dari smartwatch?</p>
       </div>
       <div className="bg-foreground/5 -mx-3 -mb-3 mt-3 space-y-3 rounded-lg p-3">
-        <div className="text-muted-foreground text-sm">Ask AI Assistant</div>
+        <div className="text-muted-foreground text-sm">Tanya Heal Assistant</div>
 
         <div className="flex justify-between">
           <div className="flex gap-2">

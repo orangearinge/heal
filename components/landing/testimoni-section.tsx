@@ -12,43 +12,42 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 
-// Data Testimoni
 const testimonials = [
   {
     name: "Dede Fernanda",
-    title: "Project Manager",
+    title: "Busy Professional",
     avatarSrc: "https://avatars.githubusercontent.com/ddfrnnd",
-    quote: "This platform made my experience seamless and enjoyable. The quality of service exceeded my expectations!",
+    quote: "Heal membantu saya memahami pola tidur dan stres kerja. Sekarang saya lebih aware dengan kesehatan mental dan bisa mengatur work-life balance dengan lebih baik.",
   },
   {
-    name: "Ahmed Saif",
-    title: "Lead Developer",
+    name: "Nissa Zahra",
+    title: "Atlet Lari",
+    avatarSrc: "https://avatars.githubusercontent.com/nisszhra",
+    quote: "Integrasi dengan Garmin watch saya sangat membantu! Heal memberikan insight yang tepat tentang recovery time dan kapan saya harus push harder dalam training.",
+  },
+  {
+    name: "Ahmad Saif",
+    title: "Pekerja Shift",
     avatarSrc: "https://avatars.githubusercontent.com/ahmdsaif87",
-    quote: "Tailus has transformed the way I develop web applications. Their extensive collection of UI components is amazing.",
+    quote: "Sebagai pekerja shift malam, Heal membantu saya mengoptimalkan jadwal tidur dan memberikan tips kesehatan yang sesuai dengan lifestyle saya yang unik.",
   },
   {
     name: "Alifia Shasa",
-    title: "Software Engineer",
+    title: "Ibu Bekerja",
     avatarSrc: "https://avatars.githubusercontent.com/alifia-30",
-    quote: "A game-changer for modern web development. The flexibility to customize every aspect is unparalleled.",
+    quote: "Heal seperti punya personal health coach 24/7. Sangat membantu saya menjaga kesehatan sambil mengurus keluarga dan karir. Responsnya selalu relevan dengan kondisi saya.",
   },
   {
-    name: "Wahyu Fadilah",
-    title: "UX Designer",
+    name: "Fadil",
+    title: "Senior Manager",
     avatarSrc: "https://avatars.githubusercontent.com/fadilsflow",
-    quote: "I can't recommend them enough. My project was handled with utmost care and precision. A 5-star experience!",
+    quote: "Data dari Apple Watch saya sekarang lebih bermakna berkat Heal. Aplikasi ini memberikan context yang saya butuhkan untuk membuat keputusan kesehatan yang lebih baik.",
   },
   {
-    name: "Niss Zhra",
-    title: "Creator, Tailkits",
-    avatarSrc: "https://avatars.githubusercontent.com/nisszhra",
-    quote: "From start to finish, the process was smooth and professional. The final product is outstanding.",
-  },
-  {
-    name: "Abdel Muwaffaq",
-    title: "Software Engineer",
+    name: "Abdel",
+    title: "Freelancer",
     avatarSrc: "https://avatars.githubusercontent.com/muwaffaqnabdel",
-    quote: "They understood our vision perfectly and brought it to life. We will definitely be working with them again.",
+    quote: "Heal memahami rutinitas kerja freelance saya yang tidak teratur. Saran-sarannya selalu tepat waktu dan membantu saya tetap sehat meski jadwal yang fleksibel.",
   },
 ];
 
@@ -152,6 +151,7 @@ export default function TestimoniSection() {
           <CarouselContent className="h-40">
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index}>
+                <p>{testimonial.name} - {testimonial.title}</p>
                 <div className="p-4 h-full flex items-center justify-center">
                   <p className="text-lg md:text-xl font-medium text-center max-w-lg">
                     &ldquo;{testimonial.quote}&rdquo;
@@ -162,8 +162,8 @@ export default function TestimoniSection() {
           </CarouselContent>
 
           <div className="flex justify-center gap-4 mt-10">
-            <CarouselPrevious className="relative static translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
-            <CarouselNext className="relative static translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
+            <CarouselPrevious className="relative  translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
+            <CarouselNext className=" relative translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
           </div>
         </Carousel>
 
