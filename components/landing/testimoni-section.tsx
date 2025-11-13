@@ -1,126 +1,174 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import Image from 'next/image'
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+
+// Data Testimoni
+const testimonials = [
+  {
+    name: "Sarah Chen",
+    title: "Project Manager",
+    avatarSrc: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop",
+    quote: "This platform made my experience seamless and enjoyable. The quality of service exceeded my expectations!",
+  },
+  {
+    name: "David Lee",
+    title: "Lead Developer",
+    avatarSrc: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&h=200&fit=crop",
+    quote: "Tailus has transformed the way I develop web applications. Their extensive collection of UI components is amazing.",
+  },
+  {
+    name: "Marcus Cole",
+    title: "Software Engineer",
+    avatarSrc: "https://images.unsplash.com/photo-1507003211169-0a1c373c6b9b?w=200&h=200&fit=crop",
+    quote: "A game-changer for modern web development. The flexibility to customize every aspect is unparalleled.",
+  },
+  {
+    name: "Zara Al-Jamil",
+    title: "UX Designer",
+    avatarSrc: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop",
+    quote: "I can't recommend them enough. My project was handled with utmost care and precision. A 5-star experience!",
+  },
+  {
+    name: "Kenji Tanaka",
+    title: "Creator, Tailkits",
+    avatarSrc: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200&h=200&fit=crop",
+    quote: "From start to finish, the process was smooth and professional. The final product is outstanding.",
+  },
+  {
+    name: "Jasmine Okoro",
+    title: "Software Engineer",
+    avatarSrc: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop",
+    quote: "They understood our vision perfectly and brought it to life. We will definitely be working with them again.",
+  },
+];
 
 export default function TestimoniSection() {
-    return (
-        <section className="py-16 md:py-32">
-            <div className="mx-auto space-y-8 px-6 md:space-y-16">
-                <div className="relative z-10 max-w-xl space-y-2 md:space-y-4">
-                    <h2 className="text-4xl font-normal lg:text-3xl">What our {" "}<span className='text-muted-foreground'>customers say</span></h2>
-                    <p>We&apos;re not just a platform, we&apos;re a community of people who care about their health and well-being.</p>
+  const [mainApi, setMainApi] = useState<CarouselApi>();
+  // Kita tidak lagi butuh thumbApi jika avatar tidak pakai carousel
+  // const [thumbApi, setThumbApi] = useState<CarouselApi>(); 
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const totalTestimonials = testimonials.length;
+
+  useEffect(() => {
+    if (!mainApi) {
+      return;
+    }
+
+    const onSelect = () => {
+      const newIndex = mainApi.selectedScrollSnap();
+      setSelectedIndex(newIndex);
+      // Jika avatar bukan carousel, kita hanya perlu mengupdate selectedIndex
+    };
+
+    mainApi.on("select", onSelect);
+    onSelect(); // Inisialisasi
+    return () => {
+      mainApi.off("select", onSelect);
+    };
+  }, [mainApi]);
+
+  const onThumbClick = (index: number) => {
+    if (!mainApi) {
+      return;
+    }
+    mainApi.scrollTo(index);
+    setSelectedIndex(index);
+  };
+
+  return (
+    <section className="py-16 md:py-32 w-full bg-black text-white"> {/* Pastikan latar belakang gelap */}
+      <div className="container mx-auto max-w-4xl space-y-20 text-center">
+        
+        {/* Header */}
+        <div className="space-y-6">
+          <h2 className="text-3xl font-bold md:text-4xl">
+            What Our Customers Say
+          </h2>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            Real stories from real people! See how our services have transformed
+            their experiences.
+          </p>
+          <Button className="bg-white text-black hover:bg-gray-200">Book Now</Button> {/* Sesuaikan warna tombol */}
+        </div>
+
+        {/* Bagian Avatar (Zigzag - BUKAN CAROUSEL LAGI) */}
+        <div className="relative w-full max-w-3xl mx-auto py-8"> {/* Menambah padding-y agar ring tidak terpotong */}
+          {/* Garis Putus-putus */}
+          <div className="absolute left-0 right-0 top-1/2 h-0 -translate-y-1/2 border-t-2 border-dotted border-gray-700" />
+          
+          <div className="flex justify-between items-center h-20 relative"> {/* Container flex untuk avatar */}
+            {testimonials.map((testimonial, index) => {
+              // Menentukan posisi zigzag
+              const isEven = index % 2 === 0; // Jika genap, di atas. Jika ganjil, di bawah.
+              const positionClass = isEven ? "-translate-y-8" : "translate-y-8"; // Menggeser avatar ke atas/bawah
+
+              // Hitung left position agar terdistribusi merata
+              const leftPosition = `calc(${(index / (totalTestimonials - 1)) * 100}% - 30px)`; // Menyesuaikan agar center
+
+              return (
+                <div
+                  key={testimonial.name}
+                  className="absolute z-10 cursor-pointer transition-transform duration-300 ease-in-out"
+                  style={{ left: leftPosition, transform: selectedIndex === index ? 'scale(1.1)' : 'scale(1)' }} // Efek scale untuk yang aktif
+                  onClick={() => onThumbClick(index)}
+                >
+                  {/* Lingkaran hitam kecil */}
+                  <div className={`absolute -left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-3 bg-gray-900 rounded-full border-2 border-white z-20 ${selectedIndex === index ? "border-red-500" : ""}`} />
+                  
+                  <div className={`relative ${positionClass}`}> {/* Wrapper untuk menggeser zigzag */}
+                    <Avatar
+                      className={`size-16 md:size-20 p-1 transition-all duration-300 ${
+                        selectedIndex === index
+                          ? "ring-4 ring-red-500 ring-offset-2 ring-offset-black" // ring-offset-black untuk latar belakang gelap
+                          : "ring-2 ring-gray-600"
+                      }`}
+                    >
+                      <AvatarImage
+                        src={testimonial.avatarSrc}
+                        alt={testimonial.name}
+                      />
+                      <AvatarFallback>
+                        {testimonial.name.substring(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
                 </div>
+              );
+            })}
+          </div>
+        </div>
 
-                <div className="grid gap-4 [--color-card:var(--color-muted)] *:border-none *:shadow-none sm:grid-cols-2 md:grid-cols-4 lg:grid-rows-2 dark:[--color-muted:var(--color-zinc-900)]">
-                    <Card className="grid grid-rows-[auto_1fr] gap-8 sm:col-span-2 sm:p-6 lg:row-span-2">
-                        <CardHeader>
-                            <Image
-                                className="h-6 w-fit dark:invert"
-                                src="https://html.tailus.io/blocks/customers/nike.svg"
-                                
-                                alt="Nike Logo"
-                                height="24"
-                                width="24"
-                            />
-                        </CardHeader>
-                        <CardContent>
-                            <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
-                                <p className="text-xl font-medium">Tailus has transformed the way I develop web applications. Their extensive collection of UI components, blocks, and templates has significantly accelerated my workflow. The flexibility to customize every aspect allows me to create unique user experiences. Tailus is a game-changer for modern web development</p>
-
-                                <div className="grid grid-cols-[auto_1fr] items-center gap-3">
-                                    <Avatar className="size-12">
-                                        <AvatarImage
-                                            src="https://tailus.io/images/reviews/shekinah.webp"
-                                            alt="Shekinah Tshiokufila"
-                                            height="400"
-                                            width="400"
-                                            loading="lazy"
-                                        />
-                                        <AvatarFallback>ST</AvatarFallback>
-                                    </Avatar>
-
-                                    <div>
-                                        <cite className="text-sm font-medium">Shekinah Tshiokufila</cite>
-                                        <span className="text-muted-foreground block text-sm">Software Ingineer</span>
-                                    </div>
-                                </div>
-                            </blockquote>
-                        </CardContent>
-                    </Card>
-                    <Card className="md:col-span-2">
-                        <CardContent className="h-full pt-6">
-                            <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
-                                <p className="text-xl font-medium">Tailus is really extraordinary and very practical, no need to break your head. A real gold mine.</p>
-
-                                <div className="grid grid-cols-[auto_1fr] items-center gap-3">
-                                    <Avatar className="size-12">
-                                        <AvatarImage
-                                            src="https://tailus.io/images/reviews/jonathan.webp"
-                                            alt="Jonathan Yombo"
-                                            height="400"
-                                            width="400"
-                                            loading="lazy"
-                                        />
-                                        <AvatarFallback>JY</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <cite className="text-sm font-medium">Jonathan Yombo</cite>
-                                        <span className="text-muted-foreground block text-sm">Software Ingineer</span>
-                                    </div>
-                                </div>
-                            </blockquote>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardContent className="h-full pt-6">
-                            <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
-                                <p>Great work on tailfolio template. This is one of the best personal website that I have seen so far!</p>
-
-                                <div className="grid items-center gap-3 grid-cols-[auto_1fr]">
-                                    <Avatar className="size-12">
-                                        <AvatarImage
-                                            src="https://tailus.io/images/reviews/yucel.webp"
-                                            alt="Yucel Faruksahan"
-                                            height="400"
-                                            width="400"
-                                            loading="lazy"
-                                        />
-                                        <AvatarFallback>YF</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <cite className="text-sm font-medium">Yucel Faruksahan</cite>
-                                        <span className="text-muted-foreground block text-sm">Creator, Tailkits</span>
-                                    </div>
-                                </div>
-                            </blockquote>
-                        </CardContent>
-                    </Card>
-                    <Card className="card variant-mixed">
-                        <CardContent className="h-full pt-6">
-                            <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
-                                <p>Great work on tailfolio template. This is one of the best personal website that I have seen so far!</p>
-
-                                <div className="grid grid-cols-[auto_1fr] gap-3">
-                                    <Avatar className="size-12">
-                                        <AvatarImage
-                                            src="https://tailus.io/images/reviews/rodrigo.webp"
-                                            alt="Rodrigo Aguilar"
-                                            height="400"
-                                            width="400"
-                                            loading="lazy"
-                                        />
-                                        <AvatarFallback>YF</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <p className="text-sm font-medium">Rodrigo Aguilar</p>
-                                        <span className="text-muted-foreground block text-sm">Creator, TailwindAwesome</span>
-                                    </div>
-                                </div>
-                            </blockquote>
-                        </CardContent>
-                    </Card>
+        {/* Carousel Utama (Quotes) */}
+        <Carousel setApi={setMainApi} opts={{ loop: true }}>
+          <CarouselContent className="h-40">
+            {testimonials.map((testimonial, index) => (
+              <CarouselItem key={index}>
+                <div className="p-4 h-full flex items-center justify-center">
+                  <p className="text-lg md:text-xl font-medium text-center max-w-lg">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </p>
                 </div>
-            </div>
-        </section>
-    )
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          
+          <div className="flex justify-center gap-4 mt-10">
+             <CarouselPrevious className="relative static translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
+             <CarouselNext className="relative static translate-y-0 text-white border-gray-700 hover:bg-gray-800" /> {/* Sesuaikan warna panah */}
+          </div>
+        </Carousel>
+        
+      </div>
+    </section>
+  );
 }
