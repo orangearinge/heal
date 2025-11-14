@@ -48,12 +48,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useChat } from "@ai-sdk/react";
 import { Fragment, useState } from "react";
-import { CopyIcon, GlobeIcon, Plus, RefreshCcwIcon, Sidebar } from "lucide-react";
+import { CopyIcon, GlobeIcon, Plus, RefreshCcw, RefreshCcwIcon, Sidebar } from "lucide-react";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@clerk/nextjs";
 import { useSidebar } from "@/components/ui/sidebar";
 import { ButtonGroup } from "@/components/ui/button-group";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const models = [
   {
@@ -65,8 +66,29 @@ const models = [
     value: "google/gemini-pro",
   },
 ];
+const device = [
+  {
+    name: "Apple Watch",
+    value: "x",
+  },
+  {
+    name: "Garmin",
+    value: "g",
+  },
+  {
+    name: "Whoop",
+    value: "d",
+  },
+];
 
 export default function ChatPage() {
+  const wearableData = {
+    garmin: { age: 28, weight: 72, restingHeartRate: 58, hrv: 45 },
+    oura: { age: 28, weight: 72, restingHeartRate: 55, hrv: 60 },
+    apple_watch: { age: 28, weight: 72, restingHeartRate: 62, hrv: 40 }
+  };
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const data = wearableData[selectedDevice] || {};
   const [input, setInput] = useState("");
   const [model, setModel] = useState<string>(models[0].value);
   const [webSearch, setWebSearch] = useState(false);
@@ -133,12 +155,39 @@ export default function ChatPage() {
         /* Empty State - Input di tengah */
         <div className="flex flex-1 flex-col items-center justify-center p-8">
           <div className="w-full max-w-2xl space-y-6">
-            <Card>
-              Hallo world
-            </Card>
             <div className="text-left">
               <h2 className="text-xl font-medium mb-2">Halo Fadil — aku Heal. Bagaimana aku bisa bantu hari ini? Kamu bisa tanya tentang tidur, kelelahan, stres, atau aktivitas fisik..</h2>
             </div>
+            <Card className="bg-muted">
+              <CardHeader className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <Select onValueChange={setSelectedDevice}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih Perangkat Wearable anda" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {device.map((d) => (
+                        <SelectItem key={d.value} value={d.value}>
+                          {d.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <RefreshCcw className="size-4" />
+              </CardHeader>
+
+
+              <CardContent className="flex justify-between items-center space-x-4">
+                <div>
+                  <p>Usia: {data.age ?? "-"}</p>
+                  <p>Berat Badan: {data.weight ?? "-"}</p>
+                  <p>Resting HR: {data.restingHeartRate ?? "-"}</p>
+                  <p>HRV: {data.hrv ?? "-"}</p>
+                </div>
+              </CardContent>
+            </Card>
+
 
             {/* Input di tengah */}
             <PromptInput onSubmit={handleSubmit} globalDrop multiple>

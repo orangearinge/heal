@@ -55,11 +55,11 @@ export default function TeksScroll() {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col justify-center items-left items-center h-screen px-6 space-y-10 overflow-hidden bg-muted"
+      className="flex flex-col justify-center items-left items-center h-screen px-6 space-y-10 overflow-hidden "
     >
       {/* Track */}
       <div ref={addToRefs} className="flex items-center space-x-4">
-        <div className="relative flex w-full h-full gap-4 bg-background p-2 rounded-2xl items-center">
+        <div className="relative flex w-full h-full gap-4 bg-muted p-2 rounded-2xl items-center">
           <Image
             src="/track.png"
             className="object-cover rounded-lg"
@@ -73,7 +73,7 @@ export default function TeksScroll() {
 
       {/* Talk */}
       <div ref={addToRefs} className="flex items-center space-x-4">
-        <div className="relative flex w-full h-full gap-4 bg-background p-2 rounded-2xl items-center">
+        <div className="relative flex w-full h-full gap-4 bg-muted p-2 rounded-2xl items-center">
           <Image
             src="/talk.png"
             className="object-cover rounded-lg"
@@ -87,7 +87,7 @@ export default function TeksScroll() {
 
       {/* Recover */}
       <div ref={addToRefs} className="flex items-center space-x-4">
-        <div className="relative flex w-full h-full gap-4 bg-background p-2 rounded-2xl items-center">
+        <div className="relative flex w-full h-full gap-4 bg-muted p-2 rounded-2xl items-center">
           <Image
             src="/recover.png"
             className="object-cover rounded-lg"
