@@ -1,6 +1,9 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const testimonials = [
   {
@@ -85,25 +88,142 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
 );
 
 export default function TestimoniSection() {
+      const sectionRef = useRef<HTMLElement>(null)
+      const titleRef = useRef<HTMLHeadingElement>(null)
+      const cardsRef = useRef<HTMLDivElement>(null)
+
+
+    useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate title with proper HTML handling
+      if (titleRef.current) {
+        // Function to wrap text nodes with spans while preserving HTML structure
+        const wrapTextNodes = (element: HTMLElement) => {
+          const walker = document.createTreeWalker(
+            element,
+            NodeFilter.SHOW_TEXT,
+            null
+          )
+
+          const textNodes: Text[] = []
+          let node
+
+          while (node = walker.nextNode()) {
+            if (node.textContent?.trim()) {
+              textNodes.push(node as Text)
+            }
+          }
+
+          textNodes.forEach(textNode => {
+            const words = textNode.textContent?.split(' ').filter(word => word.trim()) || []
+            if (words.length > 0) {
+              const fragment = document.createDocumentFragment()
+
+              words.forEach((word, index) => {
+                const span = document.createElement('span')
+                span.className = 'word-animate'
+                span.textContent = word
+                fragment.appendChild(span)
+
+                if (index < words.length - 1) {
+                  fragment.appendChild(document.createTextNode(' '))
+                }
+              })
+
+              textNode.parentNode?.replaceChild(fragment, textNode)
+            }
+          })
+        }
+
+        wrapTextNodes(titleRef.current)
+
+        const wordElements = titleRef.current.querySelectorAll('.word-animate')
+
+        // Set initial state for words
+        gsap.set(wordElements, {
+          y: 25,
+          opacity: 0,
+        })
+
+        // Animate words on scroll
+        gsap.to(wordElements, {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power2.out',
+          stagger: 0.06,
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: 'top 85%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
+
+      // Animate feature cards
+      if (cardsRef.current) {
+        const cards = cardsRef.current.children
+
+        gsap.set(cards, {
+          y: 80,
+          opacity: 0,
+          scale: 0.95,
+        })
+
+        gsap.to(cards, {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+
+        // Add hover animations for cards
+        Array.from(cards).forEach((card) => {
+          const cardElement = card as HTMLElement
+
+          cardElement.addEventListener('mouseenter', () => {
+            gsap.to(cardElement, {
+              y: -8,
+              scale: 1.02,
+              duration: 0.3,
+              ease: 'power2.out',
+            })
+          })
+
+          cardElement.addEventListener('mouseleave', () => {
+            gsap.to(cardElement, {
+              y: 0,
+              scale: 1,
+              duration: 0.3,
+              ease: 'power2.out',
+            })
+          })
+        })
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
   return (
     <section className="py-16 md:py-24 bg-white text-black dark:bg-black dark:text-white">
       <div className="container mx-auto max-w-6xl px-4">
         
         {/* Header (PERUBAHAN DI SINI) */}
-        <div className="max-w-xl mx-auto text-center space-y-4">
-          {/* PERUBAHAN: Menambahkan 'dark:bg-blue-900 dark:text-blue-200' */}
-          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-            Testimonials
-          </span>
-          {/* PERUBAHAN: Menambahkan 'dark:text-gray-100' */}
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100">
-            Why People Love Us
-          </h2>
-          {/* PERUBAHAN: Menambahkan 'dark:text-gray-400' */}
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            Discover how Aston's courses have helped users grow and succeed.
-          </p>
-        </div>
+        <div>
+            <h2 ref={titleRef} className="text-foreground  text-center items-center  text-balance text-5xl font-normal">Perjalanan kesehatan mereka{" "}
+              <br />
+              <span className='text-[#2d94b3]'>bersama heal</span>
+            </h2>
+          </div>
 
         {/* Container Marquee (Tetap Sama) */}
         <div className="mt-20 relative max-h-[90vh] overflow-hidden 
