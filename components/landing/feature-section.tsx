@@ -154,7 +154,7 @@ export default function FeatureSection() {
           <div ref={cardsRef} className="mt-24 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Card
               className="overflow-hidden p-6">
-              <h3 className="text-foreground mt-5 text-lg font-semibold">Smart Health Chatbot</h3>
+              <h3 className="text-foreground mt-5 text-lg font-semibold">Health AI Assistant </h3>
               <p className="text-muted-foreground mt-3 text-balance">Asisten AI yang memberikan saran dan edukasi kesehatan personal berdasarkan kondisi tubuh dan kebutuhan unik Anda setiap hari.</p>
 
               <AIAssistantIllustration />

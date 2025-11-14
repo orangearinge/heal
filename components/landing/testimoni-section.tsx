@@ -84,7 +84,7 @@ export default function TestimoniSection() {
   };
 
   return (
-    <section className="py-16 md:py-32 w-full "> {/* Pastikan latar belakang gelap */}
+    <section className="py-16 md:py-32 w-full  "> {/* Pastikan latar belakang gelap */}
       <div className="container mx-auto max-w-4xl space-y-20 text-center">
 
         {/* Header */}
@@ -92,7 +92,6 @@ export default function TestimoniSection() {
           <h2 className="text-3xl md:text-4xl">
             Hear it from our clients
           </h2>
-
         </div>
 
         {/* Bagian Avatar (Zigzag - BUKAN CAROUSEL LAGI) */}
