@@ -481,3 +481,44 @@ html {
 .markdown-content th {
   @apply bg-muted font-semibold;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Keyframes untuk animasi marquee vertikal.
+    Bergerak dari 0% (awal) ke -50% (akhir dari set kartu pertama).
+    Karena kita menduplikasi kartu (200% tinggi), 
+    bergerak -50% akan membuat set kedua persis di tempat set pertama.
+  */
+  @keyframes marquee-y {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
+  /* Kelas utilitas untuk menerapkan animasi.
+    - `infinite`: Animasi berjalan selamanya.
+    - `linear`: Animasi berjalan dengan kecepatan konstan (tidak pelan/cepat).
+  */
+  .animate-marquee-y {
+    animation: marquee-y 40s linear infinite;
+  }
+
+  /* Kelas opsional untuk mengubah durasi animasi 
+    jika Anda ingin kolom scroll dengan kecepatan berbeda.
+  */
+  .animate-duration-\[40s\] {
+    animation-duration: 40s;
+  }
+  .animate-duration-\[50s\] {
+    animation-duration: 50s;
+  }
+  .animate-duration-\[60s\] {
+    animation-duration: 60s;
+  }
+}
