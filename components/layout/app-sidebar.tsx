@@ -17,7 +17,7 @@ import {
     SidebarTrigger,
     useSidebar,
 } from "@/components/ui/sidebar"
-import { UserButton } from "./user-button"
+// import { NavUser } from "./user-button"
 import { cn } from "@/lib/utils"
 import { Logo } from "./logo"
 import { Button } from "../ui/button"
@@ -46,6 +46,7 @@ import {
     DialogTitle,
 } from "../ui/dialog"
 import { Input } from "../ui/input"
+import { Kbd } from "../ui/kbd"
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -179,9 +180,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             onClick={() => setSearchOpen(true)}
                                         >
                                             <Search />
-                                            <span className="text-base  hover">Search<kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
-                                                <span className="text-xs">⌘</span>K
-                                            </kbd>
+                                            <span className="text-base flex items-center gap-2">Search<Kbd >
+                                                ⌘ K
+                                            </Kbd>
                                             </span>
                                         </Button>
                                     </SidebarMenuButton>
@@ -190,13 +191,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     <SidebarMenuButton asChild>
                                         <Button
                                             variant={"secondary"}
-                                            className="flex justify-start py-5"
+                                            className="flex justify-start py-5 "
                                             onClick={handleNewChat}
                                         >
                                             <BadgePlus />
-                                            <span className="text-base  hover">New Chat<kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
-                                                <span className="text-xs">⌘</span>J
-                                            </kbd>
+                                            <span className="text-base items-center flex gap-2">New Chat
+                                                <Kbd>⌘ J</Kbd>
                                             </span>
                                         </Button>
                                     </SidebarMenuButton>
@@ -216,13 +216,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                     <SidebarMenuButton
                                                         isActive={currentChatId === chat.id}
                                                         onClick={() => handleLoadChat(chat.id)}
+                                                        size={"lg"}
                                                         className={cn(
                                                             "w-full justify-start rounded-lg pr-8",
                                                             currentChatId === chat.id && "bg-muted"
                                                         )}
                                                     >
-                                                        <div className="flex-1 min-w-0 ml-2 text-left">
-                                                            <p className="text-sm font-medium truncate">
+                                                        <div className="flex-1 min-w-0 ml-2 text-left ">
+                                                            <p className="text-sm font-medium truncate ">
                                                                 {chat.title.length > 25
                                                                     ? chat.title.slice(0, 25) + "…"
                                                                     : chat.title}
@@ -241,7 +242,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                                 <MoreVertical className="size-3 text-muted-foreground" />
                                                             </button>
                                                         </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
+                                                        <DropdownMenuContent align="end" side="right">
                                                             <DropdownMenuItem
                                                                 onClick={(e) => handleRenameClick(chat.id, chat.title, e)}
                                                             >
@@ -275,7 +276,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <UserButton />
+                                {/* <NavUser  /> */}
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     </SidebarMenu>

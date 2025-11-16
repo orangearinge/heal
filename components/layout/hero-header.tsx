@@ -103,7 +103,7 @@ export const HeroHeader = () => {
                                 <ModeToggle className={cn("hidden md:flex", !isScrolled && "text-white", isNotLanding && "text-foreground ")} />
                                 <ModeToggle className="md:hidden" />
                                 <SignedOut>
-                                    <SignInButton mode='modal'>
+                                    <SignInButton mode='modal' forceRedirectUrl={"/onboarding"}>
                                         <Button
                                             size="lg"
                                             className={cn("hidden md:flex", isScrolled ? 'rounded-full  ' : 'rounded-full  bg-white/20 hover:bg-white/30 text-white ', isNotLanding && "bg-foreground text-background hover:bg-foreground/90")}>
@@ -111,7 +111,7 @@ export const HeroHeader = () => {
                                         </Button>
 
                                     </SignInButton>
-                                    <SignInButton mode='modal'>
+                                    <SignInButton mode='modal' forceRedirectUrl={"/onboarding"}>
                                         <Button
                                             size="lg"
                                             className="rounded-full md:hidden">

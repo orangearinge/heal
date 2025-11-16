@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import Link from "next/link"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { usePathname } from "next/navigation"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -17,6 +18,7 @@ const links = [
 
 export default function FooterSection() {
     const healRef = useRef<HTMLParagraphElement | null>(null)
+    const pathname = usePathname()
 
     useEffect(() => {
         const el = healRef.current
@@ -24,35 +26,46 @@ export default function FooterSection() {
 
         const letters = el.querySelectorAll(".heal-letter")
 
-        gsap.fromTo(
-            letters,
-            {
-                y: 200,
-                opacity: 0,
-                rotateX: 30,
-            },
-            {
-                y: 0,
-                opacity: 1,
-                rotateX: 0,
-                stagger: 0.1,
-                duration: 1,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse",
-                },
-            }
-        )
-    }, [])
+        // Gunakan timeout kecil agar ScrollTrigger tahu posisi scroll saat client-side navigation
+        const timeout = setTimeout(() => {
+            gsap.fromTo(
+                letters,
+                { y: 200, opacity: 0, rotateX: 30 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotateX: 0,
+                    stagger: 0.1,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse",
+                    },
+                }
+            )
+        }, 100) // 100ms tunda untuk memastikan scroll position benar
 
+        return () => {
+            clearTimeout(timeout)
+            ScrollTrigger.killAll() // bersihkan animation saat unmount
+        }
+    }, [pathname]) // jalankan ulang saat navigasi ke page baru
 
     return (
-        <footer className="px-6   overflow-hidden  flex flex-col justify-between">
+        <footer className="px-6 overflow-hidden flex flex-col justify-between">
             <div className="flex border-b pb-4 mb-4 flex-wrap justify-between gap-6 pt-6">
                 <span className="text-muted-foreground order-last block text-center text-sm md:order-first">
-                    © {new Date().getFullYear()} Heal by <a className=" hover:text-foreground " target="_blank" rel="noreferrer" href="https://github.com/orangearinge">Orangearinge</a>
+                    © {new Date().getFullYear()} Heal by{" "}
+                    <a
+                        className="hover:text-foreground"
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://github.com/orangearinge"
+                    >
+                        Orangearinge
+                    </a>
                 </span>
 
                 <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last">
@@ -71,15 +84,7 @@ export default function FooterSection() {
             <div className="w-full flex flex-col">
                 <p
                     ref={healRef}
-                    className="
-    w-full
-    font-logo
-    leading-[0.8]
-    select-none
-    whitespace-nowrap
-    text-[clamp(8rem,35vw,60rem)]
-    pointer-events-none
-  "
+                    className="w-full font-logo leading-[0.8] select-none whitespace-nowrap text-[clamp(8rem,35vw,60rem)] pointer-events-none"
                 >
                     {"HEAL".split("").map((char, i) => (
                         <span key={i} className="heal-letter inline-block">
@@ -87,9 +92,7 @@ export default function FooterSection() {
                         </span>
                     ))}
                 </p>
-
             </div>
         </footer>
-
     )
 }

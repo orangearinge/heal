@@ -3,13 +3,19 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useOnboardingStore } from "@/lib/store";
+import { Loader2 } from "lucide-react";
+import { redirect, useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 export default function OnboardingPage() {
+    const { isLoaded, isSignedIn } = useAuth();
+
     const { setOnboardingData, updateWearableData } = useOnboardingStore();
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [loadingWearable, setLoadingWearable] = useState(false);
+    const router = useRouter();
 
     const [name, setName] = useState("");
     const [device, setDevice] = useState("");
@@ -72,17 +78,25 @@ export default function OnboardingPage() {
     };
 
     const refreshWearable = async () => {
-        setLoading(true);
+        setLoadingWearable(true);
         await delay(1000);
         const newData = randomWearableData();
         setWearableData(newData);
         updateWearableData(newData);
-        setLoading(false);
+        setLoadingWearable(false);
     };
+    if (!isLoaded) {
+        return <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+            <Loader2 />
+            <p className="text-sm">Loading...</p>
+        </div>
+    }
+    if (!isSignedIn) {
+        redirect("/");
+    }
 
     return (
         <div className="min-h-screen w-full flex flex-col items-center justify-center p-6 space-y-8">
-
             {/* STEP 1 */}
             {step === 1 && (
                 <div className="w-full max-w-sm space-y-6">
@@ -95,14 +109,20 @@ export default function OnboardingPage() {
                             value={name}
                             className="rounded-full"
                             onChange={(e) => setName(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleNext();
+                                }
+                            }}
                         />
 
                         <Button
                             className="w-full rounded-full"
                             disabled={!name || loading}
+                            type="submit"
                             onClick={handleNext}
                         >
-                            {loading ? "Memproses..." : "Lanjutkan"}
+                            {loading ? <Loader2 className="m-auto animate-spin" /> : "Lanjutkan"}
                         </Button>
                     </div>
                 </div>
@@ -123,7 +143,7 @@ export default function OnboardingPage() {
                                 onClick={() => handleDeviceSelect(d.value)}
                                 className="w-full rounded-full"
                             >
-                                {loading && device === d.value ? "Menghubungkan..." : d.label}
+                                {loading && device === d.value ? <Loader2 className="m-auto animate-spin" /> : d.label}
                             </Button>
                         ))}
                     </div>
@@ -185,7 +205,13 @@ export default function OnboardingPage() {
                                     value={wearableExtra[f.key as keyof typeof wearableExtra]}
                                     onChange={(e) =>
                                         setWearableExtra({ ...wearableExtra, [f.key]: e.target.value })
+
                                     }
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            handleNext();
+                                        }
+                                    }}
                                 />
                             </div>
                         ))}
@@ -194,8 +220,10 @@ export default function OnboardingPage() {
                             className="w-full rounded-full"
                             disabled={loading}
                             onClick={handleNext}
+                            type="submit"
+
                         >
-                            {loading ? "Memproses..." : "Lanjutkan"}
+                            {loading ? <Loader2 className="m-auto animate-spin" /> : "Lanjutkan"}
                         </Button>
                     </div>
                 </div>
@@ -239,14 +267,18 @@ export default function OnboardingPage() {
                                 disabled={loading}
                                 onClick={refreshWearable}
                             >
-                                {loading ? "Mengambil ulang data..." : "Refresh Data Wearable"}
+                                {loadingWearable ? <Loader2 className="m-auto animate-spin" /> : "Refresh Data Wearable"}
                             </Button>
                         </>
                     )}
 
                     <Button
                         className="w-full rounded-full"
-                        onClick={() => {
+                        onClick={async () => {
+                            setLoading(true);
+                            await delay(800);
+                            setLoading(false);
+
                             if (device === "manual") {
                                 setOnboardingData({
                                     name,
@@ -261,11 +293,11 @@ export default function OnboardingPage() {
                                     wearableData,
                                 });
                             }
+
+                            router.push("/chat");
                         }}
                     >
-                        <Link href={"/chat"}>
-                            Mulai Gunakan Heal
-                        </Link>
+                        {loading ? <Loader2 className="m-auto animate-spin" /> : "Mulai Konsultasi Sekarang"}
                     </Button>
                 </div>
             )}

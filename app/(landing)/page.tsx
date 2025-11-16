@@ -9,7 +9,7 @@ import TeksScroll from "@/components/landing/teks-scroll";
 
 export default function Home() {
   return (
-    <main className="flex flex-col ">
+    <main  className="flex flex-col ">
       <HeroSection />
       <LogoCloud />
       <div className="flex flex-col space-y-10">

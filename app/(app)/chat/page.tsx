@@ -57,6 +57,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useOnboardingStore, useChatStore } from "@/lib/store";
 import { nanoid } from "nanoid";
+import { cn } from "@/lib/utils";
 
 const models = [
   {
@@ -278,7 +279,7 @@ export default function ChatPage() {
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       {/* Header */}
-      <header className="flex justify-between px-6 py-3">
+      <header className={cn("relative flex justify-between px-6 py-3  w-full")}>
         <div className="flex items-center justify-center gap-4 md:flex">
           {/* Desktop: tombol hilang kalau sidebar terbuka */}
           <div className="hidden md:block">
@@ -324,7 +325,7 @@ export default function ChatPage() {
             </ButtonGroup>
           </div>
         </div>
-        <div className="flex item-center justify-center  gap-4">
+        <div className="flex item-center justify-center right-3 fixed  gap-4">
           <ModeToggle />
           <UserButton />
         </div>
@@ -333,7 +334,7 @@ export default function ChatPage() {
       {/* Main Content */}
       {!hasMessages ? (
         /* Empty State - Input di tengah */
-        <div className="flex flex-1 flex-col items-center justify-center p-8">
+        <div className="flex flex-1 flex-col items-center justify-center p-8 ">
           <div className="w-full max-w-2xl space-y-6">
             <div className="text-left">
               <h2 className="text-xl font-medium mb-2">Halo {name || "Pengguna"} — aku Heal. Bagaimana aku bisa bantu hari ini? Kamu bisa tanya tentang tidur, kelelahan, stres, atau aktivitas fisik..</h2>

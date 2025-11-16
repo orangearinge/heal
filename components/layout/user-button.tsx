@@ -1,86 +1,92 @@
-// components/session?.user-button-client.tsx
-'use client'
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+"use client"
+
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar"
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
-} from "@/components/ui/dropdown-menu";
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    useSidebar,
+} from "@/components/ui/sidebar"
+import { useAuth, useUser } from "@clerk/nextjs"
+import { LogOut, MoreVertical } from "lucide-react"
+import { useTheme } from "next-themes"
+import Link from "next/link"
 
-import { useTheme } from "next-themes";
-
-import Link from "next/link";
-import { LogOut } from "lucide-react";
-
-export function UserButton() {
-    const { setTheme, theme } = useTheme();
-    // const { data: session } = authClient.useSession();
-    // const router = useRouter()
-
-
-    // const handleLogout = async () => {
-    //     await authClient.signOut({
-    //         fetchOptions: {
-    //             onSuccess: () => {
-    //                 router.push("/");
-    //             },
-    //         },
-    //     });
-    // };
-    const handleLogout = () => {
-        console.log("Logout");
-    };
-
-
+export function NavUser() {
+    const { signOut } = useAuth()
+    const { user } = useUser()
+    const { isMobile } = useSidebar()
+    const { theme, setTheme } = useTheme()
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
-                    <Avatar className="h-8 w-8 rounded-lg">
-                        {/* {session?.user?.image ? (
-                            <Image src={session.user.image} alt={session.user.name ?? ""} fill />
-                        ) : (
-                            <AvatarFallback className="rounded-lg">
-                                {session?.user?.name?.[0]?.toUpperCase() ?? "K"}
-                            </AvatarFallback>
-                        )} */}
-                        <AvatarFallback className="rounded-lg">
-                            {"H"}
-                        </AvatarFallback>
-                    </Avatar>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-                <div className="p-2">
-                    <p className="text-sm font-medium">{"Hafidz"}</p>
-                    {/* {session?.user?.email && (
-                        <p className="text-xs text-muted-foreground">{session?.user.email}</p>
-                    )} */}
-                </div>
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <SidebarMenuButton
+                            size="lg"
+                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                        >
+                            <Avatar className="h-8 w-8 rounded-lg">
+                                <AvatarImage src={user?.imageUrl} alt={user?.fullName || ""} />
+                                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                            </Avatar>
+                            <div className="grid flex-1 text-left text-sm leading-tight ml-2">
+                                <span className="truncate font-medium">{user?.fullName}</span>
+                                <span className="text-muted-foreground truncate text-xs">
+                                    {user?.emailAddresses[0]?.emailAddress}
+                                </span>
+                            </div>
+                            <MoreVertical className="ml-auto h-4 w-4" />
+                        </SidebarMenuButton>
+                    </DropdownMenuTrigger>
 
-                <DropdownMenuItem asChild>
-                    <Link href="/studio/dashboard">Dashboard</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuLabel>Theme</DropdownMenuLabel>
-                <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-                    <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="w-full text-left flex items-center" onClick={handleLogout}>
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Logout
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu >
-    );
+                    <DropdownMenuContent
+                        className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-[14rem] rounded-lg"
+                        side={isMobile ? "bottom" : "right"}
+                        align="end"
+                        sideOffset={4}
+                    >
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem asChild>
+                                <Link href='/settings'>User Settings</Link>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuLabel>Theme</DropdownMenuLabel>
+                        <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+                            <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+                        </DropdownMenuRadioGroup>
+
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuItem onClick={() => signOut()}>
+                            <LogOut className="mr-2 h-4 w-4" />
+                            Log out
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </SidebarMenuItem>
+        </SidebarMenu>
+    )
 }
+

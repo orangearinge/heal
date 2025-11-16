@@ -23,7 +23,7 @@ export default function HeroSection() {
                     <p className=" text-white mt-8 max-w-xl text-balance text-lg">Hidup sehat lebih mudah dengan asisten cerdas yang memahami tubuhmu.</p>
                     <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
                         <SignedOut>
-                            <SignInButton mode='modal'>
+                            <SignInButton mode='modal' forceRedirectUrl={"/onboarding"}>
                                 <Button
                                     size="lg"
                                     variant={"default"}
