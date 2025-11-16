@@ -16,11 +16,11 @@ import { usePathname } from 'next/navigation'
 import { HyperText } from '../ui/hyper-text'
 
 const menuItems = [
-    { name: 'Solution', href: '/#solution' },
-    { name: 'Features', href: '/#features' },
-    // { name: 'Pricing', href: '#pricing' },
-    { name: 'About', href: '/#about' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Solusi', href: '/#solution' },
+    { name: 'Fitur', href: '/#features' },
+    // { name: 'Harga', href: '#pricing' },
+    { name: 'Tentang', href: '/about' },
+    { name: 'Kontak', href: '/contact' },
 ]
 
 
@@ -47,20 +47,25 @@ export const HeroHeader = () => {
                 <div className={cn(' transition-all duration-300 lg:px-12 px-7 pt-2', isScrolled && 'bg-background pt-0    backdrop-blur-lg lg:px-5', isNotLanding && "px-5 lg:px-5")}>
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-2 lg:gap-0 lg:py-2">
                         <div className="flex w-full justify-between lg:w-auto">
+
                             <Link
                                 href="/"
                                 aria-label="home"
                             >
-                                <HyperText className={cn(isScrolled ? "flex items-center space-x-2 text-xl" : "text-white text-xl", isNotLanding ? "text-black" : "")}>
-                                    TrueHealness
+
+                                <HyperText className={cn(isScrolled ? "flex items-center space-x-2 text-xl" : "flex items-center space-x-2 text-white text-xl", isNotLanding ? "text-foreground" : "")}>
+                                    Heal
                                 </HyperText>
                             </Link>
 
                             <button
                                 onClick={() => setMenuState(!menuState)}
                                 aria-label={menuState == true ? 'Close Menu' : 'Open Menu'}
-                                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
-                                <Menu className={cn("in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200", isScrolled ? "text-foreground" : "text-white")}
+                                className={cn("relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden",
+                                    isScrolled ? "text-foreground" : "text-white"
+                                )}>
+
+                                <Menu className={cn("in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200")}
                                 />
                                 <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
                             </button>
@@ -95,16 +100,21 @@ export const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <ModeToggle className={cn(!isScrolled && 'text-white')} />
+                                <ModeToggle className={cn("hidden md:flex", !isScrolled && "text-white", isNotLanding && "text-foreground ")} />
+                                <ModeToggle className="md:hidden" />
                                 <SignedOut>
                                     <SignInButton mode='modal'>
                                         <Button
                                             size="lg"
-                                            className={cn(
-                                                (isScrolled ? 'rounded-full  ' : 'rounded-full dark bg-white/20 hover:bg-white/30 text-white ')
-                                            )}
-                                        // className={cn(isScrolled && 'lg:hidden')}
-                                        >
+                                            className={cn("hidden md:flex", isScrolled ? 'rounded-full  ' : 'rounded-full  bg-white/20 hover:bg-white/30 text-white ', isNotLanding && "bg-foreground text-background hover:bg-foreground/90")}>
+                                            Sign in
+                                        </Button>
+
+                                    </SignInButton>
+                                    <SignInButton mode='modal'>
+                                        <Button
+                                            size="lg"
+                                            className="rounded-full md:hidden">
                                             Sign in
                                         </Button>
                                     </SignInButton>
@@ -113,10 +123,15 @@ export const HeroHeader = () => {
                                     <Button
                                         size="lg"
                                         asChild
-                                        className={cn(
-                                            (isScrolled ? 'rounded-full  ' : 'rounded-full dark bg-white/20 hover:bg-white/30 text-white ')
-
-                                        )}>
+                                        className={cn("hidden md:flex", isScrolled ? 'rounded-full ' : 'rounded-full  bg-white/20 hover:bg-white/30 text-white ', isNotLanding && "bg-foreground text-background hover:bg-foreground/90")}>
+                                        <Link href="/chat">
+                                            Konsultasi
+                                        </Link>
+                                    </Button>
+                                    <Button
+                                        size="lg"
+                                        asChild
+                                        className={cn(" rounded-full md:hidden")}>
                                         <Link href="/chat">
                                             Konsultasi
                                         </Link>

@@ -67,7 +67,7 @@ export default function TeksScroll() {
             width={100}
             alt="Track"
           />
-          <h2 className="text-7xl md:text-8xl text-[#af9150] text-balance">Track</h2>
+          <h2 className="text-5xl pr-4 md:text-8xl text-[#af9150] text-balance">Track</h2>
         </div>
       </div>
 
@@ -81,7 +81,7 @@ export default function TeksScroll() {
             width={100}
             alt="Talk"
           />
-          <h2 className="text-7xl md:text-8xl text-balance">Talk</h2>
+          <h2 className="text-5xl pr-4 md:text-8xl text-balance">Talk</h2>
         </div>
       </div>
 
@@ -95,7 +95,7 @@ export default function TeksScroll() {
             width={100}
             alt="Recover"
           />
-          <h2 className="text-7xl md:text-8xl text-[#2d94b3] text-balance">Recover</h2>
+          <h2 className="text-5xl pr-4 md:text-8xl text-[#2d94b3] text-balance">Recover</h2>
         </div>
       </div>
     </section>

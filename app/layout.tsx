@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TrueHealness",
+  title: "Heal - Asisten Kesehatan Pribadi Anda",
   description: "Hidup sehat lebih mudah dengan asisten cerdas yang memahami tubuhmu.",
 };
 
@@ -29,6 +29,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <meta name="apple-mobile-web-app-title" content="Heal" />
+        </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >

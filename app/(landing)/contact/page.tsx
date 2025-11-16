@@ -3,33 +3,33 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import Link from 'next/link'
 
 export default function ContactSection() {
     return (
         <section className="py-32">
             <div className="mx-auto max-w-4xl px-4 lg:px-0">
-                <h1 className="mb-12 text-center text-4xl font-semibold lg:text-5xl">Contact Us
-                </h1>
-
+                <h2 className=" font-normal text-center text-3xl pt-14 lg:pt-0 lg:text-5xl pb-20">
+                    Hubungi {" "}
+                    <span className='text-[#2d94b3]'>Kami</span>
+                </h2>
                 <div className="grid divide-y border md:grid-cols-2 md:gap-4 md:divide-x md:divide-y-0">
                     <div className="flex flex-col justify-between space-y-8 p-6 sm:p-12">
                         <div>
-                            <h2 className="mb-3 text-lg font-semibold">Collaborate</h2>
+                            <h2 className="mb-3 text-lg font-semibold">Kolaborasi</h2>
                             <Link
                                 href="mailto:hello@tailus.io"
-                                className="text-lg text-blue-600 hover:underline dark:text-blue-400">
+                                className="text-lg text-[#2d94b3] hover:underline">
                                 hello@truehealness.com                            </Link>
                             <p className="mt-3 text-sm">+62 8121 3323 323</p>
                         </div>
                     </div>
                     <div className="flex flex-col justify-between space-y-8 p-6 sm:p-12">
                         <div>
-                            <h3 className="mb-3 text-lg font-semibold">Press</h3>
+                            <h3 className="mb-3 text-lg font-semibold">Media / Press</h3>
                             <Link
                                 href="mailto:press@tailus.io"
-                                className="text-lg text-blue-600 hover:underline dark:text-blue-400">
+                                className="text-lg text-[#2d94b3] hover:underline ">
                                 press@truehealness.com
                             </Link>
                             <p className="mt-3 text-sm">+62 2323 4324 123</p>
@@ -42,17 +42,17 @@ export default function ContactSection() {
                     action=""
                     className="border px-4 py-12 lg:px-0 lg:py-24">
                     <Card className="mx-auto max-w-lg p-8 sm:p-16">
-                        <h3 className="text-xl font-semibold">We&apos;d love to hear from you.
 
-                            about</h3>
-                        <p className="mt-4 text-sm">Reach out to our sales team! We&apos;re eager to learn more about how you plan to use our application.</p>
+
+                        <h3 className="text-xl font-semibold">Kami ingin mendengar dari Anda.</h3>
+                        <p className="mt-4 text-sm">Hubungi tim penjualan kami! Kami ingin belajar lebih banyak tentang bagaimana Anda berniat menggunakan aplikasi kami.</p>
 
                         <div className="**:[&>label]:block mt-12 space-y-6 *:space-y-3">
                             <div>
                                 <Label
                                     htmlFor="name"
                                     className="space-y-2">
-                                    Full name
+                                    Nama Lengkap
                                 </Label>
                                 <Input
                                     type="text"
@@ -64,59 +64,13 @@ export default function ContactSection() {
                                 <Label
                                     htmlFor="email"
                                     className="space-y-2">
-                                    Work Email
+                                    Email
                                 </Label>
                                 <Input
                                     type="email"
                                     id="email"
                                     required
                                 />
-                            </div>
-                            <div>
-                                <Label
-                                    htmlFor="country"
-                                    className="space-y-2">
-                                    Country/Region
-                                </Label>
-                                <Select>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a country" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="1">DR Congo</SelectItem>
-                                        <SelectItem value="2">United States</SelectItem>
-                                        <SelectItem value="3">France</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <div>
-                                <Label
-                                    htmlFor="website"
-                                    className="space-y-2">
-                                    Company Website
-                                </Label>
-                                <Input
-                                    type="url"
-                                    id="website"
-                                />
-                            </div>
-                            <div>
-                                <Label
-                                    htmlFor="job"
-                                    className="space-y-2">
-                                    Job function
-                                </Label>
-                                <Select>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a job function" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="1">Finance</SelectItem>
-                                        <SelectItem value="2">Education</SelectItem>
-                                        <SelectItem value="3">Legal</SelectItem>
-                                        <SelectItem value="4">More</SelectItem>
-                                    </SelectContent>
-                                </Select>
                             </div>
                             <div>
                                 <Label

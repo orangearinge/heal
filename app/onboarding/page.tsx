@@ -86,7 +86,7 @@ export default function OnboardingPage() {
             {/* STEP 1 */}
             {step === 1 && (
                 <div className="w-full max-w-sm space-y-6">
-                    <h1 className="text-2xl font-mono pb-10">WELCOME TO TRUEHEALNESS!</h1>
+                    <h1 className="text-2xl font-mono pb-10">WELCOME TO HEAL!</h1>
 
                     <div className="space-y-2">
                         <Label>Masukan nama panggilan Anda</Label>

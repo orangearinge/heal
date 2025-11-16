@@ -1,90 +1,59 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { Marquee } from "../ui/marquee";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
-const testimonials = [
+const reviews = [
   {
     name: "Dede Fernanda",
-    title: "Busy Professional",
-    avatarSrc: "https://avatars.githubusercontent.com/ddfrnnd",
-    quote: "Heal membantu saya memahami pola tidur dan stres kerja. Sekarang saya lebih aware dengan kesehatan mental dan bisa mengatur work-life balance dengan lebih baik.",
+    title: "Data Analyst",
+    img: "https://avatars.githubusercontent.com/ddfrnnd",
+    quote:
+      "Heal membantu saya membaca pola detak jantung harian yang sering naik waktu kerja. Aplikasi ini memudahkan saya memahami kapan tubuh butuh istirahat lewat analisis data wearable.",
   },
   {
     name: "Nissa Zahra",
-    title: "Atlet Lari",
-    avatarSrc: "https://avatars.githubusercontent.com/nisszhra",
-    quote: "Integrasi dengan Garmin watch saya sangat membantu! Heal memberikan insight yang tepat tentang recovery time dan kapan saya harus push harder dalam training.",
+    title: "Instruktur Kebugaran",
+    img: "https://avatars.githubusercontent.com/nisszhra",
+    quote:
+      "Saya pakai Heal untuk memantau kualitas tidur dan pemulihan setelah ngajar kelas. Insight dari integrasi wearable bikin saya tahu kapan harus nurunin intensitas latihan.",
   },
   {
     name: "Ahmad Saif",
-    title: "Pekerja Shift",
-    avatarSrc: "https://avatars.githubusercontent.com/ahmdsaif87",
-    quote: "Sebagai pekerja shift malam, Heal membantu saya mengoptimalkan jadwal tidur dan memberikan tips kesehatan yang sesuai dengan lifestyle saya yang unik.",
+    title: "Kurir Logistik",
+    img: "https://avatars.githubusercontent.com/ahmdsaif87",
+    quote:
+      "Dengan jam kerja yang berubah-ubah, Heal membantu saya menjaga stamina. Data langkah dan detak jantung dari wearable langsung diterjemahkan jadi saran yang mudah diikuti.",
   },
   {
     name: "Alifia Shasa",
-    title: "Ibu Bekerja",
-    avatarSrc: "https://avatars.githubusercontent.com/alifia-30",
-    quote: "Heal seperti punya personal health coach 24/7. Sangat membantu saya menjaga kesehatan sambil mengurus keluarga dan karir. Responsnya selalu relevan dengan kondisi saya.",
+    title: "Customer Service Representative",
+    img: "https://avatars.githubusercontent.com/alifia-30",
+    quote:
+      "Kerjaan saya bikin duduk dalam waktu lama. Heal ngasih pengingat gerak, cek stress level, dan analisis tidur yang bikin ritme hidup saya lebih stabil.",
   },
   {
     name: "Fadil",
-    title: "Senior Manager",
-    avatarSrc: "https://avatars.githubusercontent.com/fadilsflow",
-    quote: "Data dari Apple Watch saya sekarang lebih bermakna berkat Heal. Aplikasi ini memberikan context yang saya butuhkan untuk membuat keputusan kesehatan yang lebih baik.",
+    title: "IT Operations Lead",
+    img: "https://avatars.githubusercontent.com/fadilsflow",
+    quote:
+      "Heal membantu saya memahami pola stres saat menangani incident di jam tertentu. Integrasi data Apple Watch bikin monitoring kesehatan jauh lebih mudah.",
   },
   {
     name: "Abdel",
-    title: "Freelancer",
-    avatarSrc: "https://avatars.githubusercontent.com/muwaffaqnabdel",
-    quote: "Heal memahami rutinitas kerja freelance saya yang tidak teratur. Saran-sarannya selalu tepat waktu dan membantu saya tetap sehat meski jadwal yang fleksibel.",
+    title: "Mobile App Developer",
+    img: "https://avatars.githubusercontent.com/muwaffaqnabdel",
+    quote:
+      "Jadwal coding sering ngacak, tapi Heal bikin saya sadar kapan tubuh mulai kelelahan. Insight dari wearable membantu saya tetap jaga produktivitas tanpa ngorbanin kesehatan.",
   },
 ];
 
-// --- Helper untuk membagi testimoni (Tetap Sama) ---
-const columns = [
-  testimonials.filter((_, i) => i % 3 === 0),
-  testimonials.filter((_, i) => i % 3 === 1),
-  testimonials.filter((_, i) => i % 3 === 2),
-];
 
-// --- Komponen Bintang 
-const StarIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg fill="currentColor" viewBox="0 0 20 20" {...props}>
-    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-  </svg>
-);
-
-// --- Komponen Kartu  
-const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
-  <figure className="p-6 bg-gray-100 rounded-lg shadow-sm break-inside-avoid dark:bg-gray-800">
-    <div className="flex items-center gap-1 text-yellow-500">
-      <StarIcon className="w-5 h-5" />
-      <StarIcon className="w-5 h-5" />
-      <StarIcon className="w-5 h-5" />
-      <StarIcon className="w-5 h-5" />
-      <StarIcon className="w-5 h-5" />
-    </div>
-    {/* PERUBAHAN: Menambahkan 'dark:text-gray-300' */}
-    <blockquote className="mt-4 text-gray-700 dark:text-gray-300">
-      <p>&ldquo;{testimonial.quote}&rdquo;</p>
-    </blockquote>
-    <figcaption className="flex items-center mt-4">
-      <Avatar className="size-10 mr-3">
-        <AvatarImage src={testimonial.avatarSrc} alt={testimonial.name} />
-        <AvatarFallback>{testimonial.name.substring(0, 2)}</AvatarFallback>
-      </Avatar>
-      <div>
-        {/* PERUBAHAN: Menambahkan 'dark:text-gray-100' */}
-        <cite className="font-semibold text-gray-900 not-italic dark:text-gray-100">{testimonial.name}</cite>
-        {/* PERUBAHAN: Menambahkan 'dark:text-gray-400' */}
-        <p className="text-sm text-gray-600 dark:text-gray-400">{testimonial.title}</p>
-      </div>
-    </figcaption>
-  </figure>
-);
+const firstRow = reviews.slice(0, reviews.length / 2)
+const secondRow = reviews.slice(reviews.length / 2)
 
 export default function TestimoniSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -213,41 +182,68 @@ export default function TestimoniSection() {
     return () => ctx.revert()
   }, [])
   return (
-    <section className="py-16 md:py-24 bg-white text-black dark:bg-black dark:text-white">
+    <section className="py-16 md:py-24 ">
       <div className="container mx-auto max-w-6xl px-4">
-
-        {/* Header (PERUBAHAN DI SINI) */}
         <div>
           <h2 ref={titleRef} className="text-foreground  text-center items-center  text-balance text-5xl font-normal">Perjalanan kesehatan mereka{" "}
             <br />
-            <span className='text-[#2d94b3]'>bersama heal</span>
+            <span className='text-[#2d94b3]'>bersama Heal</span>
           </h2>
         </div>
 
-        {/* Container Marquee (Tetap Sama) */}
-        <div className="mt-20 relative max-h-[90vh] overflow-hidden 
-                       [mask-image:_linear-gradient(to_bottom,transparent_0%,black_15%,black_85%,transparent_100%)]">
-
-          <div className="flex justify-center gap-10">
-            {columns.map((column, colIndex) => (
-              <div
-                key={colIndex}
-                className={`flex flex-col gap-10 animate-marquee-y flex-shrink-0 w-[340px]
-                            ${colIndex % 2 === 0 ? 'animate-duration-[40s]' : 'animate-duration-[50s]'} 
-                            ${colIndex === 1 ? 'flex' : 'hidden md:flex'}`}
-              >
-                {[...column, ...column].map((testimonial, cardIndex) => (
-                  <TestimonialCard
-                    key={`${testimonial.name}-${cardIndex}`}
-                    testimonial={testimonial}
-                  />
-                ))}
-              </div>
+        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden pt-20">
+          <Marquee pauseOnHover className="[--duration:20s]">
+            {firstRow.map((review) => (
+              <ReviewCard key={review.title} {...review} />
             ))}
-          </div>
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:20s]">
+            {secondRow.map((review) => (
+              <ReviewCard key={review.title} {...review} />
+            ))}
+          </Marquee>
+          <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r"></div>
+          <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l"></div>
         </div>
 
       </div>
     </section>
   );
 }
+
+const ReviewCard = ({
+  img,
+  name,
+  title,
+  quote,
+}: {
+  img: string
+  name: string
+  title: string
+  quote: string
+}) => {
+  return (
+    <figure
+      className={cn(
+        "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl  p-4  ",
+        // light styles
+        " bg-muted hover:bg-muted/90",
+        // dark styles
+        " dark:bg-muted dark:hover:bg-muted/90"
+      )}
+    >
+      <div className="flex flex-row items-center gap-2">
+        <Image className="rounded-full" width="32" height="32" alt={name} src={img} />
+        <div className="flex flex-col">
+          <figcaption className="text-sm font-medium ">
+            {name}
+          </figcaption>
+          <p className="text-sm font-medium dark:text-muted-foreground">{title}</p>
+        </div>
+      </div>
+      <blockquote className="mt-2 text-sm">{quote}</blockquote>
+    </figure>
+  )
+}
+
+

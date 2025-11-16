@@ -2,151 +2,51 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
 
 export default function FAQsFour() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const descriptionRef = useRef<HTMLParagraphElement>(null)
-  const accordionRef = useRef<HTMLDivElement>(null)
-  const footerRef = useRef<HTMLParagraphElement>(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate title
-      if (titleRef.current) {
-        gsap.set(titleRef.current, {
-          y: 40,
-          opacity: 0,
-        })
-
-        gsap.to(titleRef.current, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          },
-        })
-      }
-
-      // Animate description
-      if (descriptionRef.current) {
-        gsap.set(descriptionRef.current, {
-          y: 30,
-          opacity: 0,
-        })
-
-        gsap.to(descriptionRef.current, {
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          delay: 0.2,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: descriptionRef.current,
-            start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          },
-        })
-      }
-
-      // Animate accordion
-      if (accordionRef.current) {
-        gsap.set(accordionRef.current, {
-          y: 50,
-          opacity: 0,
-        })
-
-        gsap.to(accordionRef.current, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          delay: 0.4,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: accordionRef.current,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          },
-        })
-      }
-
-      // Animate footer
-      if (footerRef.current) {
-        gsap.set(footerRef.current, {
-          y: 20,
-          opacity: 0,
-        })
-
-        gsap.to(footerRef.current, {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          delay: 0.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: footerRef.current,
-            start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          },
-        })
-      }
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
-
   const faqItems = [
     {
       id: 'item-1',
-      question: 'How long does shipping take?',
-      answer: 'Standard shipping takes 3-5 business days, depending on your location. Express shipping options are available at checkout for 1-2 business day delivery.',
+      question: 'Bagaimana Heal bekerja?',
+      answer: 'Heal menggunakan data kesehatan dari perangkat wearable atau input manual Anda untuk memberikan insights dan rekomendasi yang dipersonalisasi. AI kami menganalisis pola tidur, detak jantung, tingkat stres, dan aktivitas fisik untuk membantu Anda memahami kondisi kesehatan secara lebih baik.',
     },
     {
       id: 'item-2',
-      question: 'What payment methods do you accept?',
-      answer: 'We accept all major credit cards (Visa, Mastercard, American Express), PayPal, Apple Pay, and Google Pay. For enterprise customers, we also offer invoicing options.',
+      question: 'Apakah data kesehatan saya aman dan privat?',
+      answer: 'Ya, keamanan dan privasi data adalah prioritas utama kami. Semua data kesehatan dienkripsi dan disimpan dengan aman. Kami tidak pernah membagikan informasi pribadi Anda kepada pihak ketiga tanpa izin eksplisit dari Anda.',
     },
     {
       id: 'item-3',
-      question: 'Can I change or cancel my order?',
-      answer: 'You can modify or cancel your order within 1 hour of placing it. After this window, please contact our customer support team who will assist you with any changes.',
+      question: 'Perangkat wearable apa saja yang didukung?',
+      answer: 'Saat ini Heal mendukung integrasi dengan Garmin, Oura Ring, dan Apple Watch. Untuk pengguna yang tidak memiliki perangkat wearable, Anda dapat memasukkan data secara manual melalui formulir onboarding kami.',
     },
     {
       id: 'item-4',
-      question: 'Do you ship internationally?',
-      answer: "Yes, we ship to over 50 countries worldwide. International shipping typically takes 7-14 business days. Additional customs fees may apply depending on your country's import regulations.",
+      question: 'Bagaimana cara membaca insights yang diberikan Heal?',
+      answer: 'Heal memberikan penjelasan yang mudah dipahami untuk setiap rekomendasi. Insights ditampilkan dalam bahasa Indonesia dengan konteks yang sesuai dengan data kesehatan Anda. Jika ada yang kurang jelas, Anda selalu bisa bertanya lebih lanjut melalui chat.',
     },
     {
       id: 'item-5',
-      question: 'What is your return policy?',
-      answer: 'We offer a 30-day return policy for most items. Products must be in original condition with tags attached. Some specialty items may have different return terms, which will be noted on the product page.',
+      question: 'Apakah ada biaya langganan?',
+      answer: 'Heal menawarkan versi gratis dengan fitur dasar. Untuk akses fitur premium seperti analisis mendalam, rekomendasi advanced, dan integrasi dengan lebih banyak perangkat, tersedia paket langganan bulanan. Detail paket dapat dilihat di halaman pricing.',
     },
   ]
 
   return (
-    <section ref={sectionRef} className="relative z-50 bg-background py-16 md:py-24">
+    <section className="relative z-10 bg-background py-16 md:py-24">
       <div className="mx-auto px-6 md:px-6">
-        <div className="">
-          <h2 ref={titleRef} className="text-balance font-normal text-3xl  lg:text-3xl">Frequently Asked Questions</h2>
-          <p ref={descriptionRef} className="text-muted-foreground mt-4 text-balance">Discover quick and comprehensive answers to common questions about our platform, services, and features.</p>
+
+        <div>
+          <h2 className="text-foreground  text-center items-center  text-balance text-5xl font-normal">Pertanyaan yang Sering{" "}
+            <span className='text-[#2d94b3]'>Ditanyakan</span>
+          </h2>
+          <p className="text-center text-muted-foreground mt-4 text-lg">
+            Temukan jawaban untuk pertanyaan umum tentang Heal
+          </p>
         </div>
 
         <div className="mt-12">
           <Accordion
-            ref={accordionRef}
             type="single"
             collapsible
             className="bg-muted dark:bg-muted/50 w-full rounded-2xl p-1">
@@ -167,13 +67,14 @@ export default function FAQsFour() {
             ))}
           </Accordion>
 
-          <p ref={footerRef} className="text-muted-foreground mt-6 px-8">
-            Can&apos;t find what you&apos;re looking for? Contact our{' '}
+          <p className="text-muted-foreground mt-6 px-8 text-center">
+            Tidak menemukan jawaban yang Anda cari? Hubungi tim{' '}
             <Link
-              href="#"
+              href="/contact"
               className="text-primary font-medium hover:underline">
-              customer support team
-            </Link>
+              dukungan pelanggan
+            </Link>{' '}
+            kami untuk bantuan lebih lanjut.
           </p>
         </div>
       </div>
