@@ -50,9 +50,9 @@ export default function FooterSection() {
 
     return (
         <footer className="px-6   overflow-hidden  flex flex-col justify-between">
-            <div className="flex border-b pb-4 flex-wrap justify-between gap-6 pt-6">
+            <div className="flex border-b pb-4 mb-4 flex-wrap justify-between gap-6 pt-6">
                 <span className="text-muted-foreground order-last block text-center text-sm md:order-first">
-                    © {new Date().getFullYear()} Heal by <a className="hover:underline" target="_blank" rel="noreferrer" href="https://github.com/orangearinge">orangearinge</a>
+                    © {new Date().getFullYear()} Heal by <a className=" hover:text-foreground " target="_blank" rel="noreferrer" href="https://github.com/orangearinge">Orangearinge</a>
                 </span>
 
                 <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last">

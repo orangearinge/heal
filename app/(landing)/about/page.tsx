@@ -17,7 +17,7 @@ export default function AboutSection() {
     useEffect(() => {
         const ctx = gsap.context(() => {
             // Animate title
-            if (titleRef.current) {
+            if (titleRef    .current) {
                 gsap.set(titleRef.current, {
                     y: 40,
                     opacity: 0,

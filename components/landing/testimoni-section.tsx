@@ -30,7 +30,7 @@ const reviews = [
   },
   {
     name: "Alifia Shasa",
-    title: "Customer Service Representative",
+    title: "Customer Service Bank",
     img: "https://avatars.githubusercontent.com/alifia-30",
     quote:
       "Kerjaan saya bikin duduk dalam waktu lama. Heal ngasih pengingat gerak, cek stress level, dan analisis tidur yang bikin ritme hidup saya lebih stabil.",
@@ -238,7 +238,7 @@ const ReviewCard = ({
           <figcaption className="text-sm font-medium ">
             {name}
           </figcaption>
-          <p className="text-sm font-medium dark:text-muted-foreground">{title}</p>
+          <p className="text-xs font-medium text-muted-foreground dark:text-muted-foreground">{title}</p>
         </div>
       </div>
       <blockquote className="mt-2 text-sm">{quote}</blockquote>

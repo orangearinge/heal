@@ -107,7 +107,7 @@ export const HeroHeader = () => {
                                         <Button
                                             size="lg"
                                             className={cn("hidden md:flex", isScrolled ? 'rounded-full  ' : 'rounded-full  bg-white/20 hover:bg-white/30 text-white ', isNotLanding && "bg-foreground text-background hover:bg-foreground/90")}>
-                                            Sign in
+                                            Masuk
                                         </Button>
 
                                     </SignInButton>
@@ -115,7 +115,7 @@ export const HeroHeader = () => {
                                         <Button
                                             size="lg"
                                             className="rounded-full md:hidden">
-                                            Sign in
+                                            Masuk
                                         </Button>
                                     </SignInButton>
                                 </SignedOut>
