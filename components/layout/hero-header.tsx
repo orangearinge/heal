@@ -118,7 +118,7 @@ export const HeroHeader = () => {
 
                                         )}>
                                         <Link href="/chat">
-                                            Dashboard
+                                            Konsultasi
                                         </Link>
                                     </Button>
                                     <UserButton />

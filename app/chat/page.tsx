@@ -47,14 +47,16 @@ import {
 } from "@/components/ai-elements/reasoning";
 import { Button } from "@/components/ui/button";
 import { useChat } from "@ai-sdk/react";
-import { Fragment, useState } from "react";
-import { CopyIcon, GlobeIcon, Plus, RefreshCcw, RefreshCcwIcon, Sidebar } from "lucide-react";
+import { Fragment, useState, useMemo, useEffect, useRef } from "react";
+import { CopyIcon, GlobeIcon, Plus, RefreshCcw, RefreshCcwIcon, Sidebar, } from "lucide-react";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@clerk/nextjs";
 import { useSidebar } from "@/components/ui/sidebar";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useOnboardingStore, useChatStore } from "@/lib/store";
+import { nanoid } from "nanoid";
 
 const models = [
   {
@@ -66,38 +68,171 @@ const models = [
     value: "google/gemini-pro",
   },
 ];
-const device = [
-  {
-    name: "Apple Watch",
-    value: "x",
-  },
+const deviceList = [
   {
     name: "Garmin",
-    value: "g",
+    value: "garmin",
   },
   {
-    name: "Whoop",
-    value: "d",
+    name: "Oura Ring",
+    value: "oura",
+  },
+  {
+    name: "Apple Watch",
+    value: "apple_watch",
+  },
+  {
+    name: "Manual",
+    value: "manual",
   },
 ];
 
 export default function ChatPage() {
-  const wearableData = {
-    garmin: { age: 28, weight: 72, restingHeartRate: 58, hrv: 45 },
-    oura: { age: 28, weight: 72, restingHeartRate: 55, hrv: 60 },
-    apple_watch: { age: 28, weight: 72, restingHeartRate: 62, hrv: 40 }
-  };
-  const [selectedDevice, setSelectedDevice] = useState(null);
-  const data = wearableData[selectedDevice] || {};
+  const { name, device, manualData, wearableExtra, wearableData, lastRefetchTime, updateWearableData } = useOnboardingStore();
+  const { currentChatId, addChat, updateChat, setCurrentChat, getChat } = useChatStore();
+  const [selectedDevice, setSelectedDevice] = useState<string | null>(device || null);
   const [input, setInput] = useState("");
   const [model, setModel] = useState<string>(models[0].value);
   const [webSearch, setWebSearch] = useState(false);
-  const { messages, sendMessage, status, regenerate } = useChat();
+  const { messages, setMessages, sendMessage, status, regenerate } = useChat();
+
   const { open, toggleSidebar } = useSidebar();
+
+  // Track if we're in the middle of sending a message
+  const isSendingRef = useRef(false);
+
+  const availableDevices = useMemo(() => {
+    if (!device) return [];
+    return deviceList.filter((d) => d.value === device);
+  }, [device]);
+
+  const data = useMemo(() => {
+    if (device === "manual") {
+      return {
+        age: manualData.age || "-",
+        weight: manualData.weight || "-",
+        height: manualData.height || "-",
+        sleep: manualData.sleep || "-",
+        stress: manualData.stress || "-",
+      };
+    } else if (wearableData && wearableExtra) {
+      return {
+        age: wearableExtra.age || "-",
+        weight: wearableExtra.weight || "-",
+        restingHeartRate: wearableData.restingHR || "-",
+        hrv: wearableData.hrv || "-",
+        sleepScore: wearableData.sleepScore || "-",
+        sleepDuration: wearableData.sleepDuration || "-",
+        steps: wearableData.steps || "-",
+        stress: wearableData.stress || "-",
+      };
+    }
+    return {};
+  }, [device, manualData, wearableExtra, wearableData]);
+
+  const formatLastRefetch = (timeString: string | null) => {
+    if (!timeString) return "-";
+    const date = new Date(timeString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return "Baru saja";
+    if (diffMins < 60) return `${diffMins} menit yang lalu`;
+    if (diffHours < 24) return `${diffHours} jam yang lalu`;
+    return `${diffDays} hari yang lalu`;
+  };
+
+  const handleRefreshWearable = async () => {
+    if (device === "manual" || !device) return;
+
+    const randomWearableData = {
+      restingHR: Math.floor(50 + Math.random() * 30),
+      hrv: Math.floor(20 + Math.random() * 60),
+      sleepScore: Math.floor(50 + Math.random() * 50),
+      sleepDuration: (5 + Math.random() * 3).toFixed(1),
+      steps: Math.floor(2000 + Math.random() * 8000),
+      stress: Math.floor(1 + Math.random() * 10)
+    };
+
+    updateWearableData(randomWearableData);
+  };
+
+  // Load chat when currentChatId changes (user clicks on chat history)
+  const prevChatIdRef = useRef<string | null>(currentChatId);
+  useEffect(() => {
+    // Skip if we're sending a message
+    if (isSendingRef.current) {
+      prevChatIdRef.current = currentChatId;
+      return;
+    }
+
+    // Only load if chatId changed from user action
+    if (prevChatIdRef.current !== currentChatId) {
+      if (currentChatId) {
+        const chat = getChat(currentChatId);
+        if (chat && chat.messages.length > 0) {
+          setMessages(chat.messages);
+        } else {
+          // Chat exists but no messages yet - don't clear
+          // This happens when we just created the chat
+        }
+      } else {
+        setMessages([]);
+      }
+      prevChatIdRef.current = currentChatId;
+    }
+  }, [currentChatId, getChat, setMessages]);
+
+  // Save chat to store when messages change
+  const prevMessagesLengthRef = useRef(0);
+  useEffect(() => {
+    // Skip if no messages or no chatId
+    if (messages.length === 0 || !currentChatId) {
+      prevMessagesLengthRef.current = messages.length;
+      return;
+    }
+
+    // Skip if messages haven't actually changed
+    if (messages.length === prevMessagesLengthRef.current && messages.length > 0) {
+      const existingChat = getChat(currentChatId);
+      if (existingChat && JSON.stringify(existingChat.messages) === JSON.stringify(messages)) {
+        return;
+      }
+    }
+    prevMessagesLengthRef.current = messages.length;
+
+    const firstUserMessage = messages.find((m) => m.role === "user");
+    const title = firstUserMessage?.parts.find((p) => p.type === "text")?.text?.slice(0, 50) || "New Chat";
+
+    // Check if chat already exists
+    const existingChat = getChat(currentChatId);
+    if (existingChat) {
+      // Update existing chat
+      updateChat(currentChatId, [...messages], title);
+    } else {
+      // Create new chat
+      addChat({
+        id: currentChatId,
+        title,
+        messages: [...messages],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+    }
+  }, [messages, currentChatId, addChat, updateChat, getChat]);
+
+  const handleNewChat = () => {
+    setCurrentChat(null);
+    setMessages([]);
+    setInput("");
+  };
 
   const hasMessages = messages.length > 0;
 
-  const handleSubmit = (message: PromptInputMessage) => {
+  const handleSubmit = async (message: PromptInputMessage) => {
     const hasText = Boolean(message.text);
     const hasAttachments = Boolean(message.files?.length);
 
@@ -105,6 +240,20 @@ export default function ChatPage() {
       return;
     }
 
+    // Set flag that we're sending
+    isSendingRef.current = true;
+
+    // Create chat ID if it doesn't exist
+    let chatIdToUse = currentChatId;
+    if (!chatIdToUse) {
+      chatIdToUse = nanoid();
+      setCurrentChat(chatIdToUse);
+    }
+
+    // Clear input
+    setInput("");
+
+    // Send the message with ID in options
     sendMessage(
       {
         text: message.text || "Sent with attachments",
@@ -114,35 +263,66 @@ export default function ChatPage() {
         body: {
           model: model,
           webSearch: webSearch,
+          userData: device === "manual"
+            ? { name, device, manualData }
+            : { name, device, wearableExtra, wearableData },
         },
       },
     );
-    setInput("");
-  };
 
+    // Reset flag after a short delay
+    setTimeout(() => {
+      isSendingRef.current = false;
+    }, 100);
+  };
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       {/* Header */}
       <header className="flex justify-between px-6 py-3">
-
-
-        <div className="flex item-center justify-center gap-4">
-          {!open && (
-            <div className="">
-              <ButtonGroup  >
-                <Button className="rounded-full" variant={"outline"} onClick={() => {
-                  toggleSidebar()
-                }}>
+        <div className="flex items-center justify-center gap-4 md:flex">
+          {/* Desktop: tombol hilang kalau sidebar terbuka */}
+          <div className="hidden md:block">
+            {!open && (
+              <ButtonGroup>
+                <Button
+                  className="rounded-full"
+                  variant="outline"
+                  onClick={toggleSidebar}
+                >
                   <Sidebar />
                 </Button>
-                <Button className="rounded-full" variant={"outline"}>
+
+                <Button
+                  className="rounded-full"
+                  variant="outline"
+                  onClick={handleNewChat}
+                >
                   <Plus />
                 </Button>
               </ButtonGroup>
-            </div>
-          )}
+            )}
+          </div>
 
+          {/* Mobile: tombol SELALU muncul biar bisa nutup sidebar */}
+          <div className="block md:hidden">
+            <ButtonGroup>
+              <Button
+                className="rounded-full"
+                variant="outline"
+                onClick={toggleSidebar}
+              >
+                <Sidebar />
+              </Button>
 
+              <Button
+                className="rounded-full"
+                variant="outline"
+                onClick={handleNewChat}
+              >
+                <Plus />
+              </Button>
+            </ButtonGroup>
+          </div>
         </div>
         <div className="flex item-center justify-center  gap-4">
           <ModeToggle />
@@ -156,17 +336,21 @@ export default function ChatPage() {
         <div className="flex flex-1 flex-col items-center justify-center p-8">
           <div className="w-full max-w-2xl space-y-6">
             <div className="text-left">
-              <h2 className="text-xl font-medium mb-2">Halo Fadil — aku Heal. Bagaimana aku bisa bantu hari ini? Kamu bisa tanya tentang tidur, kelelahan, stres, atau aktivitas fisik..</h2>
+              <h2 className="text-xl font-medium mb-2">Halo {name || "Pengguna"} — aku Heal. Bagaimana aku bisa bantu hari ini? Kamu bisa tanya tentang tidur, kelelahan, stres, atau aktivitas fisik..</h2>
             </div>
             <Card className="bg-muted">
               <CardHeader className="flex justify-between items-center">
                 <div className="flex items-center">
-                  <Select onValueChange={setSelectedDevice}>
+                  <Select
+                    onValueChange={setSelectedDevice}
+                    value={selectedDevice || device || undefined}
+                    disabled={availableDevices.length <= 1}
+                  >
                     <SelectTrigger>
-                      <SelectValue placeholder="Pilih Perangkat Wearable anda" />
+                      <SelectValue placeholder="Perangkat Wearable anda" />
                     </SelectTrigger>
                     <SelectContent>
-                      {device.map((d) => (
+                      {availableDevices.map((d) => (
                         <SelectItem key={d.value} value={d.value}>
                           {d.name}
                         </SelectItem>
@@ -174,20 +358,46 @@ export default function ChatPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <RefreshCcw className="size-4" />
+                {device !== "manual" && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleRefreshWearable}
+                    className="rounded-full"
+                  >
+                    <RefreshCcw className="size-4" />
+                  </Button>
+                )}
               </CardHeader>
 
-
-              <CardContent className="flex justify-between items-center space-x-4">
-                <div>
-                  <p>Usia: {data.age ?? "-"}</p>
-                  <p>Berat Badan: {data.weight ?? "-"}</p>
-                  <p>Resting HR: {data.restingHeartRate ?? "-"}</p>
-                  <p>HRV: {data.hrv ?? "-"}</p>
-                </div>
+              <CardContent className="space-y-3">
+                {device === "manual" ? (
+                  <div className="space-y-1 text-sm">
+                    <p>Usia: {data.age}</p>
+                    <p>Berat Badan: {data.weight} kg</p>
+                    <p>Tinggi Badan: {data.height} cm</p>
+                    <p>Durasi Tidur: {data.sleep} jam</p>
+                    <p>Stres: {data.stress}/10</p>
+                  </div>
+                ) : (
+                  <div className="space-y-1 text-sm">
+                    <p>Usia: {data.age}</p>
+                    <p>Berat Badan: {data.weight} kg</p>
+                    <p>Resting HR: {data.restingHeartRate} bpm</p>
+                    <p>HRV: {data.hrv} ms</p>
+                    <p>Sleep Score: {data.sleepScore}</p>
+                    <p>Durasi Tidur: {data.sleepDuration} jam</p>
+                    <p>Langkah: {data.steps}</p>
+                    <p>Stres: {data.stress}/10</p>
+                    {lastRefetchTime && (
+                      <p className="text-xs text-muted-foreground mt-2 pt-2 border-t">
+                        Terakhir diupdate: {formatLastRefetch(lastRefetchTime)}
+                      </p>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
-
 
             {/* Input di tengah */}
             <PromptInput onSubmit={handleSubmit} globalDrop multiple>
@@ -247,30 +457,30 @@ export default function ChatPage() {
                 size="sm"
                 className="rounded-full"
                 onClick={() => {
-                  setInput("Jelaskan secara singkat apa itu Next.js");
+                  setInput("Berdasarkan data kesehatan saya, bagaimana kondisi saya hari ini?");
                 }}
               >
-                Apa itu Next.js?
+                Bagaimana kondisi saya?
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 className="rounded-full"
                 onClick={() => {
-                  setInput("Bagaimana cara membuat API di Next.js?");
+                  setInput("Apa yang bisa saya lakukan untuk meningkatkan kualitas tidur?");
                 }}
               >
-                Cara membuat API
+                Tips tidur lebih baik
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 className="rounded-full"
                 onClick={() => {
-                  setInput("Apa perbedaan SSR dan CSR?");
+                  setInput("Bagaimana cara mengurangi stres berdasarkan data saya?");
                 }}
               >
-                SSR vs CSR
+                Cara mengurangi stres
               </Button>
             </div>
           </div>
@@ -310,7 +520,6 @@ export default function ChatPage() {
                           return (
                             <Fragment key={`${message.id}-${i}`}>
                               <Message from={message.role} >
-
                                 <MessageContent variant="flat" className="p-2">
                                   <Response key={`${message.id}-${i}`}>{part.text}</Response>
                                 </MessageContent>
@@ -371,7 +580,6 @@ export default function ChatPage() {
                   <PromptInputTextarea
                     placeholder="Tanyakan lagi..."
                     onChange={(e) => setInput(e.target.value)}
-
                     value={input}
                   />
                 </PromptInputBody>
