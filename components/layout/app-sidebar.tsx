@@ -1,8 +1,6 @@
 "use client"
 import * as React from "react"
 import { Search, PanelLeft, BadgePlus, Trash2, MoreVertical } from "lucide-react"
-
-
 import {
     Sidebar,
     SidebarContent,
@@ -153,7 +151,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             onClick={() => setSearchOpen(true)}
                                         >
                                             <Search />
-                                            <span className="text-base flex items-center gap-2">Search<Kbd >
+                                            <span className="text-base flex items-center gap-2 ">Search<Kbd >
                                                 ⌘ K
                                             </Kbd>
                                             </span>

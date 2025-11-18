@@ -1,4 +1,4 @@
-"use client";
+  "use client";
 
 import {
   Conversation,
@@ -10,6 +10,7 @@ import {
   Message,
   MessageContent,
 } from "@/components/ai-elements/message";
+import { motion } from "framer-motion";
 import {
   PromptInput,
   PromptInputActionAddAttachments,
@@ -23,11 +24,6 @@ import {
   PromptInputFooter,
   PromptInputHeader,
   type PromptInputMessage,
-  PromptInputModelSelect,
-  PromptInputModelSelectContent,
-  PromptInputModelSelectItem,
-  PromptInputModelSelectTrigger,
-  PromptInputModelSelectValue,
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
@@ -48,16 +44,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { useChat } from "@ai-sdk/react";
 import { Fragment, useState, useMemo, useEffect, useRef } from "react";
-import { CopyIcon, GlobeIcon, Plus, RefreshCcw, RefreshCcwIcon, Sidebar, } from "lucide-react";
+import { CopyIcon, GlobeIcon, PlusIcon, RefreshCcwIcon, Sidebar, User, Scale, Ruler, Moon, Brain, Activity, Clock, TrendingUp, Watch, Plus } from "lucide-react";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@clerk/nextjs";
 import { useSidebar } from "@/components/ui/sidebar";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useOnboardingStore, useChatStore } from "@/lib/store";
 import { nanoid } from "nanoid";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { SuggestionButtons } from "@/components/chat/suggestion-buttons";
 
 const models = [
   {
@@ -91,7 +88,6 @@ const deviceList = [
 export default function ChatPage() {
   const { name, device, manualData, wearableExtra, wearableData, lastRefetchTime, updateWearableData } = useOnboardingStore();
   const { currentChatId, addChat, updateChat, setCurrentChat, getChat } = useChatStore();
-  const [selectedDevice, setSelectedDevice] = useState<string | null>(device || null);
   const [input, setInput] = useState("");
   const [model, setModel] = useState<string>(models[0].value);
   const [webSearch, setWebSearch] = useState(false);
@@ -276,6 +272,10 @@ export default function ChatPage() {
       isSendingRef.current = false;
     }, 100);
   };
+  const text = `Halo ${name || "Pengguna"}. Bagaimana aku bisa bantu hari ini?`;
+  const words = text.split(" ");
+
+
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       {/* Header */}
@@ -334,71 +334,157 @@ export default function ChatPage() {
       {/* Main Content */}
       {!hasMessages ? (
         /* Empty State - Input di tengah */
-        <div className="flex flex-1 flex-col items-center justify-center p-8 ">
+        <motion.div
+          className="flex flex-1 flex-col items-center justify-center p-8 "
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <div className="w-full max-w-2xl space-y-6">
             <div className="text-left">
-              <h2 className="text-xl font-medium mb-2">Halo {name || "Pengguna"} — aku Heal. Bagaimana aku bisa bantu hari ini? Kamu bisa tanya tentang tidur, kelelahan, stres, atau aktivitas fisik..</h2>
-            </div>
-            <Card className="bg-muted">
-              <CardHeader className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Select
-                    onValueChange={setSelectedDevice}
-                    value={selectedDevice || device || undefined}
-                    disabled={availableDevices.length <= 1}
+              <h2 className="text-3xl font-medium mb-2 flex flex-wrap gap-1">
+                {words.map((word, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Perangkat Wearable anda" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {availableDevices.map((d) => (
-                        <SelectItem key={d.value} value={d.value}>
-                          {d.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    {word}
+                  </motion.span>
+                ))}
+              </h2>
+            </div>
+
+            {/* Improved Health Data Card */}
+            <Card className="bg-muted">
+              <CardHeader className="flex flex-row justify-between items-center pb-2 pt-3">
+                <div className="flex items-center gap-2">
+                  <div>
+                    <h3 className="font-semibold text-xs">Data Kesehatan</h3>
+                    {lastRefetchTime && device !== "manual" && (
+                      <p className="text-[10px] text-muted-foreground">
+                        {formatLastRefetch(lastRefetchTime)}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 {device !== "manual" && (
                   <Button
-                    variant="ghost"
-                    size="icon"
+                    variant="secondary"
+                    // size="icon"
+                    size={"sm"}
                     onClick={handleRefreshWearable}
-                    className="rounded-full"
+                    className="text-xs px-3 py-1"
                   >
-                    <RefreshCcw className="size-4" />
+                    Refresh data Weareable
                   </Button>
                 )}
               </CardHeader>
 
-              <CardContent className="space-y-3">
+              <CardContent className="pt-0 pb-3">
                 {device === "manual" ? (
-                  <div className="space-y-1 text-sm">
-                    <p>Usia: {data.age}</p>
-                    <p>Berat Badan: {data.weight} kg</p>
-                    <p>Tinggi Badan: {data.height} cm</p>
-                    <p>Durasi Tidur: {data.sleep} jam</p>
-                    <p>Stres: {data.stress}/10</p>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <User className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Usia</p>
+                        <p className="font-semibold text-xs truncate">{data.age}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Scale className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Berat</p>
+                        <p className="font-semibold text-xs truncate">{data.weight} kg</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Ruler className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Tinggi</p>
+                        <p className="font-semibold text-xs truncate">{data.height} cm</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Moon className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Tidur</p>
+                        <p className="font-semibold text-xs truncate">{data.sleep} jam</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md col-span-2">
+                      <Brain className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Stres</p>
+                        <p className="font-semibold text-xs truncate">{data.stress}/10</p>
+                      </div>
+                    </div>
                   </div>
                 ) : (
-                  <div className="space-y-1 text-sm">
-                    <p>Usia: {data.age}</p>
-                    <p>Berat Badan: {data.weight} kg</p>
-                    <p>Resting HR: {data.restingHeartRate} bpm</p>
-                    <p>HRV: {data.hrv} ms</p>
-                    <p>Sleep Score: {data.sleepScore}</p>
-                    <p>Durasi Tidur: {data.sleepDuration} jam</p>
-                    <p>Langkah: {data.steps}</p>
-                    <p>Stres: {data.stress}/10</p>
-                    {lastRefetchTime && (
-                      <p className="text-xs text-muted-foreground mt-2 pt-2 border-t">
-                        Terakhir diupdate: {formatLastRefetch(lastRefetchTime)}
-                      </p>
-                    )}
+                  <div className="grid grid-cols-4 gap-1.5">
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <User className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Usia</p>
+                        <p className="font-semibold text-xs truncate">{data.age}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Scale className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Berat</p>
+                        <p className="font-semibold text-xs truncate">{data.weight} kg</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Activity className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">HR</p>
+                        <p className="font-semibold text-xs truncate">{data.restingHeartRate}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <TrendingUp className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">HRV</p>
+                        <p className="font-semibold text-xs truncate">{data.hrv}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Moon className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Score</p>
+                        <p className="font-semibold text-xs truncate">{data.sleepScore}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Clock className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Tidur</p>
+                        <p className="font-semibold text-xs truncate">{data.sleepDuration}j</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Watch className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Steps</p>
+                        <p className="font-semibold text-xs truncate">{data.steps}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 p-1.5 rounded-md">
+                      <Brain className="size-3.5 text-muted-foreground shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-muted-foreground">Stres</p>
+                        <p className="font-semibold text-xs truncate">{data.stress}/10</p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </CardContent>
             </Card>
+            {/* Suggestion Buttons */}
+            <SuggestionButtons onSuggestionClick={setInput} />
 
             {/* Input di tengah */}
             <PromptInput onSubmit={handleSubmit} globalDrop multiple>
@@ -422,14 +508,14 @@ export default function ChatPage() {
                       <PromptInputActionAddAttachments />
                     </PromptInputActionMenuContent>
                   </PromptInputActionMenu>
-                  <PromptInputButton
+                  {/* <PromptInputButton
                     variant={webSearch ? "default" : "ghost"}
                     onClick={() => setWebSearch(!webSearch)}
                   >
                     <GlobeIcon size={16} />
                     <span>Search</span>
-                  </PromptInputButton>
-                  <PromptInputModelSelect
+                  </PromptInputButton> */}
+                  {/* <PromptInputModelSelect
                     onValueChange={(value) => {
                       setModel(value);
                     }}
@@ -445,47 +531,13 @@ export default function ChatPage() {
                         </PromptInputModelSelectItem>
                       ))}
                     </PromptInputModelSelectContent>
-                  </PromptInputModelSelect>
+                  </PromptInputModelSelect> */}
                 </PromptInputTools>
                 <PromptInputSubmit disabled={!input && !status} status={status} />
               </PromptInputFooter>
             </PromptInput>
-
-            {/* Suggestion Buttons */}
-            <div className="flex flex-wrap justify-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full"
-                onClick={() => {
-                  setInput("Berdasarkan data kesehatan saya, bagaimana kondisi saya hari ini?");
-                }}
-              >
-                Bagaimana kondisi saya?
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full"
-                onClick={() => {
-                  setInput("Apa yang bisa saya lakukan untuk meningkatkan kualitas tidur?");
-                }}
-              >
-                Tips tidur lebih baik
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full"
-                onClick={() => {
-                  setInput("Bagaimana cara mengurangi stres berdasarkan data saya?");
-                }}
-              >
-                Cara mengurangi stres
-              </Button>
-            </div>
           </div>
-        </div>
+        </motion.div>
       ) : (
         /* Chat Mode - Input floating */
         <div className="relative flex flex-1 flex-col overflow-hidden">
@@ -592,14 +644,14 @@ export default function ChatPage() {
                         <PromptInputActionAddAttachments />
                       </PromptInputActionMenuContent>
                     </PromptInputActionMenu>
-                    <PromptInputButton
+                    {/* <PromptInputButton
                       variant={webSearch ? "default" : "ghost"}
                       onClick={() => setWebSearch(!webSearch)}
                     >
                       <GlobeIcon size={16} />
                       <span>Search</span>
-                    </PromptInputButton>
-                    <PromptInputModelSelect
+                    </PromptInputButton> */}
+                    {/* <PromptInputModelSelect
                       onValueChange={(value) => {
                         setModel(value);
                       }}
@@ -615,7 +667,7 @@ export default function ChatPage() {
                           </PromptInputModelSelectItem>
                         ))}
                       </PromptInputModelSelectContent>
-                    </PromptInputModelSelect>
+                    </PromptInputModelSelect> */}
                   </PromptInputTools>
                   <PromptInputSubmit disabled={!input && !status} status={status} />
                 </PromptInputFooter>
