@@ -1,4 +1,4 @@
-import FooterSection from "@/components/landing/footer-section.tsx";
+import FooterSection from "@/components/landing/footer-section";
 import { HeroHeader } from "@/components/layout/hero-header";
 
 export default function RootLayout({

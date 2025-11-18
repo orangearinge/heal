@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import { Search, PanelLeft, BadgePlus, Trash2, MoreVertical, Pencil } from "lucide-react"
+import { Search, PanelLeft, BadgePlus, Trash2, MoreVertical } from "lucide-react"
 
 
 import {
@@ -37,15 +37,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "../ui/dialog"
-import { Input } from "../ui/input"
 import { Kbd } from "../ui/kbd"
 
 
@@ -53,10 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const { open: sidebarOpen, toggleSidebar } = useSidebar();
     const [isHovered, setIsHovered] = React.useState(false);
     const [searchOpen, setSearchOpen] = React.useState(false);
-    const [renameDialogOpen, setRenameDialogOpen] = React.useState(false);
-    const [selectedChatId, setSelectedChatId] = React.useState<string | null>(null);
-    const [renameValue, setRenameValue] = React.useState("");
-    const { chats, currentChatId, setCurrentChat, deleteChat, renameChat } = useChatStore();
+    const { chats, currentChatId, setCurrentChat, deleteChat } = useChatStore();
 
     // reset hover ketika sidebar kebuka
     React.useEffect(() => {
@@ -89,21 +77,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         deleteChat(chatId);
     };
 
-    const handleRenameClick = (chatId: string, currentTitle: string, e: React.MouseEvent) => {
-        e.stopPropagation();
-        setSelectedChatId(chatId);
-        setRenameValue(currentTitle);
-        setRenameDialogOpen(true);
-    };
-
-    const handleRenameSubmit = () => {
-        if (selectedChatId && renameValue.trim()) {
-            renameChat(selectedChatId, renameValue.trim());
-            setRenameDialogOpen(false);
-            setSelectedChatId(null);
-            setRenameValue("");
-        }
-    };
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -132,7 +105,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 </SidebarMenuButton>
                             ) : (
                                 <SidebarMenuButton
-                                    className="w-fit group relative transition-all duration-200 flex items-center"
+                                    className="w-fit group/item relative transition-all duration-200 flex items-center"
                                     // aktifkan hover cuma saat sidebar closed
                                     onMouseEnter={() => !sidebarOpen && setIsHovered(true)}
                                     onMouseLeave={() => !sidebarOpen && setIsHovered(false)}
@@ -244,12 +217,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent align="end" side="right">
                                                             <DropdownMenuItem
-                                                                onClick={(e) => handleRenameClick(chat.id, chat.title, e)}
-                                                            >
-                                                                <Pencil className="size-4" />
-                                                                Rename
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuItem
                                                                 variant="destructive"
                                                                 onClick={(e) => handleDeleteChat(chat.id, e)}
                                                             >
@@ -311,42 +278,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </CommandGroup>
                 </CommandList>
             </CommandDialog>
-            <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Rename Chat</DialogTitle>
-                        <DialogDescription>
-                            Enter a new name for this chat session.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <Input
-                        value={renameValue}
-                        onChange={(e) => setRenameValue(e.target.value)}
-                        placeholder="Chat name..."
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                handleRenameSubmit();
-                            }
-                        }}
-                        autoFocus
-                    />
-                    <DialogFooter>
-                        <Button
-                            variant="outline"
-                            onClick={() => {
-                                setRenameDialogOpen(false);
-                                setSelectedChatId(null);
-                                setRenameValue("");
-                            }}
-                        >
-                            Cancel
-                        </Button>
-                        <Button onClick={handleRenameSubmit} disabled={!renameValue.trim()}>
-                            Save
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
         </>
     )
 }

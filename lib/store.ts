@@ -55,7 +55,6 @@ interface ChatStore {
   currentChatId: string | null;
   addChat: (chat: ChatHistory) => void;
   updateChat: (id: string, messages: UIMessage[], title?: string) => void;
-  renameChat: (id: string, title: string) => void;
   deleteChat: (id: string) => void;
   setCurrentChat: (id: string | null) => void;
   getChat: (id: string) => ChatHistory | undefined;
@@ -145,18 +144,6 @@ export const useChatStore = create<ChatStore>()(
                   ...chat,
                   messages,
                   title: title || chat.title,
-                  updatedAt: new Date().toISOString(),
-                }
-              : chat
-          ),
-        })),
-      renameChat: (id, title) =>
-        set((state) => ({
-          chats: state.chats.map((chat) =>
-            chat.id === id
-              ? {
-                  ...chat,
-                  title,
                   updatedAt: new Date().toISOString(),
                 }
               : chat
